@@ -29,6 +29,8 @@ class RegistrationController extends AbstractController
             );
 
             $entityManager = $this->getDoctrine()->getManager();
+            $user->setAdministrateur(false);
+            $user->setActif(true);
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email

@@ -52,6 +52,9 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
 
+            ->add('campus',null,[
+                "label" => "Campus : "
+                ])
 
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
