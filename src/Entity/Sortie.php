@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -64,6 +66,22 @@ class Sortie
      * @ORM\JoinColumn(nullable=false)
      */
     private $campus;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Utilisateur::class, mappedBy="estInscrit")
+     */
+    private $participants;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=utilisateur::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
 
 
@@ -176,6 +194,45 @@ class Sortie
     public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Utilisateur[]
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Utilisateur $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->addEstInscrit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Utilisateur $participant): self
+    {
+        if ($this->participants->removeElement($participant)) {
+            $participant->removeEstInscrit($this);
+        }
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?utilisateur
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?utilisateur $organisateur): self
+    {
+        $this->organisateur = $organisateur;
 
         return $this;
     }
