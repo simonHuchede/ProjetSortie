@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieFormType;
+use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,13 +46,19 @@ class SortieController extends AbstractController
     /**
      * @Route("/listSorties",name="listSorties")
      */
-    public function listSorties(SortieRepository $sortieRepository)
+    public function listSorties(SortieRepository $sortieRepository,
+                                CampusRepository $campusRepository,
+                                Request $request)
     {
         $listSorties=$sortieRepository->findAll();
+        $campus=$campusRepository->findAll();
+        $rechercheForm=$this->createForm();
         return $this->render("sortie/listSorties.html.twig",
-        compact('listSorties')
+        compact('listSorties','campus')
         );
     }
+
+
 
 
 
