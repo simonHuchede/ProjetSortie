@@ -1,1 +1,11 @@
 {% extends "base.html.twig" %}
+
+{% block contenu %}
+    <h1>Nouvelle sortie</h1>
+
+    {{ form_start(formulaireSortie)}}
+    {{ form_widget(formulaireSortie)}}
+
+    <button type="submit" class="btn">Enregistrer</button>
+    {{ form_end(formulaireSortie)}}
+{% endblock %}
