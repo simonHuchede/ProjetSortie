@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block contenu %}
+    {% for sortie in listSorties %}
+        <a href="#">{{ sortie.nom }}</a>
+    {% endfor %}
+{% endblock %}
+

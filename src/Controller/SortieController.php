@@ -42,13 +42,13 @@ class SortieController extends AbstractController
             return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie'));
     }
     /**
-     * @Route("/listSorties",name="sortie_listSorties")
+     * @Route("/listSorties",name="listSorties")
      */
     public function listSorties(SortieRepository $sortieRepository)
     {
-        $listSortie=$sortieRepository->findAll();
-        return $this->render("main/home.html.twig",
-        compact('listSortie')
+        $listSorties=$sortieRepository->findAll();
+        return $this->render("sortie/listSorties.html.twig",
+        compact('listSorties')
         );
     }
 
