@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block contenu %}
+    <div class="text-center list-unstyled">
+
     {% for sortie in listSorties %}
-        <a href="#">{{ sortie.nom }}</a>
+            <li><a href="{{ path('sortie_sortieDetail', {'sortie': sortie.id}) }}">{{ sortie.nom }}</a></li>
     {% endfor %}
+
+    </div>
 {% endblock %}
 

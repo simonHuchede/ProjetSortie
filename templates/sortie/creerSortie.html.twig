@@ -1,14 +1,18 @@
 {% extends "base.html.twig" %}
 
 {% block contenu %}
-    <h1>Nouvelle sortie</h1>
-    <div class="offset-3 col-6">
-        {{ form_start(formulaireSortie)}}
+
+    <div class="offset-4 col-8">
         <div class="offset-1 col-4">
+        <h1>Nouvelle sortie</h1>
+        {{ form_start(formulaireSortie)}}
+
             {{ form_widget(formulaireSortie)}}
-        </div>
-        <button type="submit" class="btn btn-dark">Enregistrer</button>
+            <button type="submit" class="btn btn-dark">Enregistrer</button>
+            <button type="submit" class="btn btn-dark">Publier la sortie</button>
+            <button type="reset" class="btn btn-dark">Annuler</button>
         {{ form_end(formulaireSortie)}}
+        </div>
     </div>
 
 {% endblock %}
