@@ -58,7 +58,6 @@ class RegistrationFormType extends AbstractType
                 "label" => "Campus : ",
                 "class" => Campus::class,
                 "choice_label"=>"nom",
-                "expanded"=>true,
                 "multiple"=>false
                 ])
 
