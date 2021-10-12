@@ -2,10 +2,13 @@
 
 {% block contenu %}
     <h1>Nouvelle sortie</h1>
+    <div class="offset-3 col-6">
+        {{ form_start(formulaireSortie)}}
+        <div class="offset-1 col-4">
+            {{ form_widget(formulaireSortie)}}
+        </div>
+        <button type="submit" class="btn">Enregistrer</button>
+        {{ form_end(formulaireSortie)}}
+    </div>
 
-    {{ form_start(formulaireSortie)}}
-    {{ form_widget(formulaireSortie)}}
-
-    <button type="submit" class="btn">Enregistrer</button>
-    {{ form_end(formulaireSortie)}}
 {% endblock %}
