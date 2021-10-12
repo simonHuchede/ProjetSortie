@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieFormType;
-use App\Repository\CampusRepository;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,16 +24,14 @@ class SortieController extends AbstractController
      */
     public function creerSortie(Request $request,
                                  EntityManagerInterface $entityManager,
-                                $id,UtilisateurRepository $utilisateurRepository){
+                                $id,UtilisateurRepository $utilisateurRepository,EtatRepository $repoEtat){
         $utilisateur=$utilisateurRepository->findOneBy(['id'=>$id]);
         $sortie = new Sortie();
         $formulaireSortie= $this->createForm(SortieFormType::class,$sortie);
         $formulaireSortie->handleRequest($request);
-        $etat= new Etat();
-        $etat->setLibelle("créee");
 
         if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid()){
-
+            $etat = $repoEtat->find(1);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setCampus($utilisateur->getCampus());
             $sortie->setEtat($etat);
@@ -46,20 +44,18 @@ class SortieController extends AbstractController
     /**
      * @Route("/listSorties",name="listSorties")
      */
-    public function listSorties(SortieRepository $sortieRepository,
-                                CampusRepository $campusRepository,
-                                Request $request)
+    public function listSorties(SortieRepository $sortieRepository)
     {
         $listSorties=$sortieRepository->findAll();
-        $campus=$campusRepository->findAll();
-        $rechercheForm=$this->createForm();
         return $this->render("sortie/listSorties.html.twig",
-        compact('listSorties','campus')
+        compact('listSorties')
         );
     }
 
-
-
-
-
+    /**
+     * @Route("/detail/{sortie}", name="sortieDetail")
+     */
+    public function detailSortie(Sortie $sortie){
+        return $this->render("sortie/detail.html.twig", compact('sortie'));
+    }
 }
