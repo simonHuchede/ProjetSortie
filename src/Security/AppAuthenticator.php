@@ -43,7 +43,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
 
-
+                new RememberMeBadge()
             ]
         );
     }
@@ -52,6 +52,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
+
         }
 
         // For example:
