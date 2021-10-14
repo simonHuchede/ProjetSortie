@@ -2,14 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Etat;
+
 use App\Entity\Sortie;
-use App\Entity\Ville;
-use Doctrine\DBAL\Types\TextType;
-use PHPUnit\TextUI\XmlConfiguration\Logging\Text;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\DomCrawler\Field\TextareaFormField;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,10 +16,18 @@ class SortieFormType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('dateHeureDebut')
-            ->add('duree')
-            ->add('dateLimiteInscription')
-            ->add('nbInscriptionsMax')
+            ->add('dateHeureDebut',DateTimeType::class, [
+                'widget' => 'single_text'
+            ])
+            ->add('duree', null, [
+                'attr' => ['min' => 0]
+            ])
+            ->add('dateLimiteInscription', DateType::class, [
+                'widget' => 'single_text'
+            ])
+            ->add('nbInscriptionsMax', null, [
+                'attr' => ['min' => 0]
+            ])
             ->add('infosSortie')
             /*->add('etat', EntityType::class,[
                 'label'=>'etat : ',

@@ -3,7 +3,9 @@
 {% block contenu %}
     <div class="text-center">
         <h3>Détail</h3>
-        Nom de la sortie : {{ sortie.nom }}              Campus : {{ sortie.campus.nom }} <br>
+        <div class="">Nom de la sortie : {{ sortie.nom }} </div>
+        <div>Campus : {{ sortie.campus.nom }} </div>
+
         Date et heure de la sortie : {{ sortie.dateHeureDebut|date('d/m/Y h:i')}}                    Lieu : {{ sortie.lieu.nom }}<br>
         Date Limite Inscription : {{ sortie.dateLimiteInscription|date('d/m/Y')}}                       Rue : {{ sortie.lieu.rue }}<br>
         Nombre de place : {{ sortie.nbInscriptionsMax }} Code Postal : {{ sortie.lieu.ville.codePostal }}<br>

@@ -30,6 +30,7 @@ class SortieController extends AbstractController
         $formulaireSortie= $this->createForm(SortieFormType::class,$sortie);
         $formulaireSortie->handleRequest($request);
 
+
         if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid()){
             $etat = $repoEtat->find(1);
             $sortie->setOrganisateur($utilisateur);
@@ -56,6 +57,7 @@ class SortieController extends AbstractController
      * @Route("/detail/{sortie}", name="sortieDetail")
      */
     public function detailSortie(Sortie $sortie){
+
         return $this->render("sortie/detail.html.twig", compact('sortie'));
     }
 }
