@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
         $user = new Utilisateur();
