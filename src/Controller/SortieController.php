@@ -55,24 +55,26 @@ class SortieController extends AbstractController
      */
     public function apiListSorties(SortieRepository $sortieRepository)
     {
+
         $listSorties=$sortieRepository->findAll();
         $tableau=[];
+
         // boucle foreach pour récuperer tout ce qu'il y a dans le tableau
         foreach ($listSorties as $sortie){
             $tab['id']=$sortie->getId() ;
             $tab['nom']=$sortie->getNom() ;
+
             $tab['dateHeureDebut']=$sortie->getDateHeureDebut() ;
-            $tab['duree']=$sortie->getDuree() ;
             $tab['dateLimiteInscription']=$sortie->getDateLimiteInscription() ;
             $tab['nbInscriptionMax']=$sortie->getNbInscriptionsMax() ;
-            $tab['infosSortie']=$sortie->getInfosSortie() ;
+
             $tab['etat']=$sortie->getEtat()->getLibelle() ;
-            $tab['organisateur']=$sortie->getOrganisateur() ;
-            $tab['campus']=$sortie->getCampus() ;
-            $tab['lieu']=$sortie->getLieu() ;
-            $tab['participants']=$sortie->getParticipants() ;
+            $tab['organisateur']=$sortie->getOrganisateur()->getPseudo() ;
+            //$tab['participants']=$sortie->getParticipants() ;
+
             $tableau[]=$tab;
         }
+
 
         return $this->json($tableau);
     }

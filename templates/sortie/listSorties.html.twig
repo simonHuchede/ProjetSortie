@@ -7,14 +7,14 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <td>Nom de la sortie</td>
-                                    <td>Date de la sortie</td>
-                                    <td>Clôture</td>
-                                    <td>inscrits/places</td>
-                                    <td>Etat</td>
-                                    <td>Inscrit</td>
-                                    <td>Organisateur</td>
-                                    <td>Action</td>
+                                    <th>Nom de la sortie</th>
+                                    <th>Date de la sortie</th>
+                                    <th>Clôture</th>
+                                    <th>inscrits/places</th>
+                                    <th>Etat</th>
+                                   <!-- <td>Inscrit</td> -->
+                                    <th>Organisateur</th>
+                                    <!--<td>Action</td> -->
                                 </tr>
                                 </thead>
                                     <tbody id="myTbody">
@@ -26,19 +26,18 @@
     </div>
         <template id="ligne">
                 <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
                 </tr>
         </template>
 
 
-        <script src="">
+        <script src="{{ asset('js/listSorties.js') }}">
 
         </script>
 {% endblock %}
