@@ -63,11 +63,9 @@ class SortieController extends AbstractController
         foreach ($listSorties as $sortie){
             $tab['id']=$sortie->getId() ;
             $tab['nom']=$sortie->getNom() ;
-
             $tab['dateHeureDebut']=$sortie->getDateHeureDebut() ;
             $tab['dateLimiteInscription']=$sortie->getDateLimiteInscription() ;
             $tab['nbInscriptionMax']=$sortie->getNbInscriptionsMax() ;
-
             $tab['etat']=$sortie->getEtat()->getLibelle() ;
             $tab['organisateur']=$sortie->getOrganisateur()->getPseudo() ;
             //$tab['participants']=$sortie->getParticipants() ;
@@ -87,5 +85,12 @@ class SortieController extends AbstractController
     public function detailSortie(Sortie $sortie){
 
         return $this->render("sortie/detail.html.twig", compact('sortie'));
+    }
+    /**
+     * @Route("sinscrire/{id}",name="sinscrire")
+     */
+    public function sinscrire($id){
+
+        return $this->render("sortie/listSorties.html.twig");
     }
 }
