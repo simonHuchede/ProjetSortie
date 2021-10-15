@@ -3,7 +3,7 @@ function afficherTab(tableau){
 //selecteur sur le template et sur le tableau
     let tbody=document.querySelector("#myTbody");
     let template=document.querySelector("#ligne");
-    let urlSinscrire="localhost:8000/sortie/sinscrire/";
+    let urlSinscrire="../../sortie/sinscrire/";
     for (let sortie of tableau){
         //j'ajoute l'id de ma sortie à l'url de sinscrire
         let urlsinscrire2=urlSinscrire+sortie.id;
