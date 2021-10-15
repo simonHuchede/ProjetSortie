@@ -98,5 +98,6 @@ class SortieController extends AbstractController
     $em->flush();
 
         return $this->render("sortie/listSorties.html.twig");
+
     }
 }
