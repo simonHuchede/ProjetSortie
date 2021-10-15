@@ -50,6 +50,8 @@ class SortieController extends AbstractController
 
         return $this->render("sortie/listSorties.html.twig");
     }
+
+
     /**
      * @Route("/api/listSorties/",name="api_listSorties")
      */

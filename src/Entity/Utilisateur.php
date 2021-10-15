@@ -85,6 +85,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $Campus;
 
+
     public function __construct()
     {
         $this->estInscrit = new ArrayCollection();

@@ -3,9 +3,9 @@
 {% block contenu %}
     <div class="text-center list-unstyled">
 
-{% for sortie in listSorties %}
+{#{% for sortie in listSorties %}
             <li><a href="{{ path('sortie_sortieDetail', {'sortie': sortie.id}) }}">{{ sortie.nom }}</a></li>
-    {% endfor %}
+    {% endfor %}#}
 
         <script src="{{ asset('js/listSorties.js') }}">
 
