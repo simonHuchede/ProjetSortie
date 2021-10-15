@@ -8,8 +8,11 @@ use App\Repository\CampusRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 class ProfilController extends AbstractController
 {
@@ -20,7 +23,8 @@ class ProfilController extends AbstractController
                                     $id,
                                     UtilisateurRepository $utilisateurRepository,
                                     EntityManagerInterface $em ,
-                                    CampusRepository $campusRepository)
+                                    CampusRepository $campusRepository,
+                                    SluggerInterface $slugger)
     {
         $campus=$campusRepository->findAll();
         $user = $utilisateurRepository->findOneBy(['id' => $id]);
@@ -29,6 +33,23 @@ class ProfilController extends AbstractController
 
 
         if ($modifform->isSubmitted() && $modifform->isValid()) {
+            $photoProfil = $modifform->get('image')->getData();
+
+            if ($photoProfil){
+                $originalFileName = pathinfo($photoProfil->getClientOriginalName(), PATHINFO_FILENAME);
+                $saveFileName = $slugger->slug($originalFileName);
+                $newFileName = $saveFileName.'-'.uniqid().'.'.$photoProfil->guessExtension();
+
+                try {
+                    $photoProfil->move(
+                        $this->getParameter('img_directory'),
+                        $newFileName
+                    );
+                } catch (FileException $e) {
+
+                }
+                $user->setImage($newFileName);
+            }
             $em->flush();
             // Message flash
             $this->addFlash("success", "Votre profil a été modifié.");

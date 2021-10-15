@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Campus;
 use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,8 +22,10 @@ class ModifierProfilFormType extends AbstractType
             ->add('Campus', null,[
                 "choice_label"=>"nom"
             ])
-            ->add('image',null,[
-                'label'=>'Image : '
+            ->add('image',FileType::class,[
+                'label'=>'Photo de profil : ',
+                'mapped' => false,
+                'required' => false
                 ])
             //->add('roles')
            // ->add('password')

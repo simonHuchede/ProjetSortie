@@ -3,21 +3,10 @@
 {% block contenu %}
 
 <div id="form" class="offset-4 col-6">
+    <h3>Modifier mon profil</h3>
     {{ form_start(modifform) }}
     <div class="col-4">
     {{ form_widget(modifform) }}
-    {#
-    {{ form_widget(monform.pseudo, {'value' : app.user.pseudo  }) }}
-
-    {{ form_widget(monform.prenom, {'value' :  app.user.prenom }) }}
-
-    {{ form_widget(monform.nom, {'value' :  app.user.nom }) }}
-
-    {{ form_widget(monform.telephone, {'value' :  app.user.telephone }) }}
-
-    {{ form_widget(monform.email, {'value' :  app.user.email}) }}
-
-    {{ form_widget(monform.campus, {'value' :  app.user.campus.nom }) }}#}
     </div>
     <button type="submit" class="btn btn-dark">Enregistrer</button>
     <a type="submit" class="btn btn-dark" href="{{ path('main_home') }}">Annuler</a>
