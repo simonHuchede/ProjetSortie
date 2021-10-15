@@ -89,10 +89,11 @@ class SortieController extends AbstractController
         return $this->render("sortie/detail.html.twig", compact('sortie'));
     }
     /**
-     * @Route("sinscrire/{id}",name="sinscrire")
+     * @Route("/sinscrire/{id}",name="sinscrire")
      */
     public function sinscrire($id){
 
         return $this->render("sortie/listSorties.html.twig");
+
     }
 }
