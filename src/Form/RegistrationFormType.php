@@ -60,6 +60,9 @@ class RegistrationFormType extends AbstractType
                 "choice_label"=>"nom",
                 "multiple"=>false
                 ])
+            ->add('image',null,[
+                'label'=>'Image :'
+            ])
         ;
     }
 

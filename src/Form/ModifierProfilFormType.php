@@ -21,6 +21,9 @@ class ModifierProfilFormType extends AbstractType
             ->add('Campus', null,[
                 "choice_label"=>"nom"
             ])
+            ->add('image',null,[
+                'label'=>'Image : '
+                ])
             //->add('roles')
            // ->add('password')
             //->add('administrateur')
