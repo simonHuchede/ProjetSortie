@@ -1,16 +1,45 @@
 {% extends 'base.html.twig' %}
 
 {% block contenu %}
-    <div class="text-center list-unstyled">
+    <div class="container">
+            <div class="row">
+                    <div class="offset-3 col-6">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <td>Nom de la sortie</td>
+                                    <td>Date de la sortie</td>
+                                    <td>Clôture</td>
+                                    <td>inscrits/places</td>
+                                    <td>Etat</td>
+                                    <td>Inscrit</td>
+                                    <td>Organisateur</td>
+                                    <td>Action</td>
+                                </tr>
+                                </thead>
+                                    <tbody id="myTbody">
 
-{#{% for sortie in listSorties %}
-            <li><a href="{{ path('sortie_sortieDetail', {'sortie': sortie.id}) }}">{{ sortie.nom }}</a></li>
-    {% endfor %}#}
+                                    </tbody>
+                            </table>
+                    </div>
+            </div>
+    </div>
+        <template id="ligne">
+                <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                </tr>
+        </template>
 
-        <script src="{{ asset('js/listSorties.js') }}">
+
+        <script src="">
 
         </script>
-
-    </div>
 {% endblock %}
 

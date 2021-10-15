@@ -85,6 +85,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $Campus;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
 
     public function __construct()
     {
@@ -314,6 +318,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCampus(?Campus $Campus): self
     {
         $this->Campus = $Campus;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
