@@ -104,8 +104,10 @@ class SortieController extends AbstractController
      */
     public function sinscrire(Sortie $sortie,EntityManagerInterface $em){
         $dateDebut = $sortie->getDateLimiteInscription();
+        $nbInscrits = $sortie->getNbParticipants();
+        $nbInscritsMax = $sortie->getNbInscriptionsMax();
 
-        if ((new \DateTime('now')) < $dateDebut) {
+        if ((new \DateTime('now')) < $dateDebut && $nbInscrits < $nbInscritsMax) {
             $user =$this->getUser();
             $sortie->addParticipant($user);
             $em->persist($sortie);
