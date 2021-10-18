@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block contenu %}
+    <div id="formulaireModifierSortie" class="offset-4 col-6">
+        <h2>Modifier la sortie</h2>
+        {{ form.start(formulaireModifierSortie) }}
+        <div class="col-4">
+        {{ form.widget(formulaireModifierSortie) }}
+        </div>
+        <button type="submit" class="btn btn-dark">Modifier</button>
+        {{ form.end(formulaireModifierSortie) }}
+    </div>
+{% endblock %}

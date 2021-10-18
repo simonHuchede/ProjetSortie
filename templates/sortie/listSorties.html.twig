@@ -3,18 +3,18 @@
 {% block contenu %}
     <div class="container">
             <div class="row">
-                    <div class="offset-3 col-6">
+                    <div class="col-12">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Nom de la sortie</th>
-                                    <th>Date de la sortie</th>
+                                    <th class="col-2">Nom de la sortie</th>
+                                    <th class="col-2">Date de la sortie</th>
                                     <th>Clôture</th>
                                     <th>inscrits/places</th>
                                     <th>Etat</th>
                                    <!-- <th>Inscrit</th> -->
                                     <th>Organisateur</th>
-                                    <th>Action</th>
+                                    <th class="col-4">Action</th>
                                 </tr>
                                 </thead>
                                     <tbody id="myTbody">
@@ -33,7 +33,10 @@
                         <td>4</td>
                         <td>5</td>
                         <td>
-                            <a href="" id="btnSinscrire" class="">S'inscrire</a>
+                            <a  href="" id="btnSinscrire" class=" col-4 btn btn-light">S'inscrire</a>
+                            <a  href="" id="btnSedesister" class="col-4 btn btn-light">Se Désister</a>
+                            <a  href="" id="btnModifierSortie" class=" col-4 btn btn-light">Modifier</a>
+
                         </td>
 
                 </tr>
