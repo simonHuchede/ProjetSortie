@@ -30,10 +30,19 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
         $formulaireSortie= $this->createForm(SortieFormType::class,$sortie);
         $formulaireSortie->handleRequest($request);
+        $info = $request->get('info');
 
 
-        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid()){
+        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '1'){
             $etat = $repoEtat->find(1);
+            $sortie->setOrganisateur($utilisateur);
+            $sortie->setCampus($utilisateur->getCampus());
+            $sortie->setEtat($etat);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            return $this -> redirectToRoute("main_home");
+        } elseif ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '2'){
+            $etat = $repoEtat->find(2);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setCampus($utilisateur->getCampus());
             $sortie->setEtat($etat);
