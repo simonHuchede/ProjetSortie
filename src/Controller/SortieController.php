@@ -98,7 +98,7 @@ class SortieController extends AbstractController
     $em->persist($sortie);
     $em->flush();
 
-        return $this->render("sortie/listSorties.html.twig");
+        return $this->redirectToRoute("sortie_listSorties");
 
     }
     /**
@@ -109,10 +109,12 @@ class SortieController extends AbstractController
         $sortie->removeParticipant($user);
         $em->persist($sortie);
         $em->flush();
-        return $this->render("sortie/listSorties.html.twig");
+
+        return $this->redirectToRoute( "sortie_listSorties");
     }
+
     /**
-     * Route("/modifierSortie/{id}",name="modifierSortie")
+     * @Route("/modifierSortie/{id}", name="modifierSortie")
      */
     public function modifierSortie(Sortie $sortie, EntityManagerInterface $em, Request $request){
         $formulaireModifierSortie=$this->createForm(ModifierSortieFormType::class,$sortie);
