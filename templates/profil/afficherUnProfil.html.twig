@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% block contenu %}
+    <div class="container">
+        <div class="row">
+
+            <div class="offset-4 col-4">
+                prénom: {{ utilisateur.prenom }}
+            </div>
+            <div class="offset-4 col-4">
+                Nom: {{ utilisateur.nom }}
+            </div>
+            <div class="offset-4 col-4">
+                Téléphone: {{ utilisateur.telephone }}
+            </div>
+            <div class="offset-4 col-4">
+                Email: {{ utilisateur.email }}
+            </div>
+            <div class="offset-4 col-4">
+                Campus: {{ utilisateur.campus.nom}}
+            </div>
+
+            {{ utilisateur.image }}
+        </div>
+    </div>
+{% endblock %}

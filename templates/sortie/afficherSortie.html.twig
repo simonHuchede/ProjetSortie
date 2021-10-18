@@ -1,0 +1,88 @@
+{% extends "base.html.twig" %}
+
+{% block contenu %}
+    <div class="container">
+<h2>Afficher une sortie</h2>
+        <div class="row">
+            <div class="col-6">
+               Nom de la sortie : {{ sortie.nom }}
+            </div>
+            <div class="col-6">
+                campus: {{ sortie.campus.nom }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Date et heure de la sortie: {{ sortie.dateHeureDebut |date('d/m/y H:i') }}
+            </div>
+            <div class="col-6">
+                Lieu: {{ sortie.lieu.nom }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Date limite d'inscription: {{ sortie.dateLimiteInscription |date('d/m/y H:i') }}
+            </div>
+            <div class="col-6">
+                Rue: {{ sortie.lieu.rue }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Nombre de places: {{ sortie.nbInscriptionsMax }}
+            </div>
+            <div class="col-6">
+                Code postal: {{ sortie.lieu.ville.codePostal }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Durée: {{ sortie.duree }} minutes
+            </div>
+            <div class="col-6">
+                Latitude: {{ sortie.lieu.latitude }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Description et infos: {{ sortie.infosSortie }}
+            </div>
+            <div class="col-6">
+                Longitude: {{ sortie.lieu.longitutde }}
+            </div>
+        </div>
+        <div class="row">
+            <h3>Liste des participants</h3>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="col-2">Pseudo</th>
+                        <th class="col-4">Nom</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbodyParticipant">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <template id="ligneP">
+        <tr>
+            <td>0</td>
+            <td>
+                <a href="" class="btnAfficherPofil"></a>
+            </td>
+        </tr>
+    </template>
+    <input href="#" id="idSortie" hidden value="{{ sortie.id }}">
+
+    <script src="{{ asset('js/listParticipants.js') }}">
+
+    </script>
+{% endblock %}

@@ -71,6 +71,7 @@ class SortieController extends AbstractController
             $tab['nbInscriptionMax']=$sortie->getNbInscriptionsMax() ;
             $tab['etat']=$sortie->getEtat()->getLibelle() ;
             $tab['organisateur']=$sortie->getOrganisateur()->getPseudo() ;
+            $tab['nb']=$sortie->getNbParticipants();
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;
@@ -109,14 +110,13 @@ class SortieController extends AbstractController
         $sortie->removeParticipant($user);
         $em->persist($sortie);
         $em->flush();
-
-        return $this->redirectToRoute( "sortie_listSorties");
+        return $this->redirectToRoute("sortie_listSorties");
     }
-
     /**
-     * @Route("/modifierSortie/{id}", name="modifierSortie")
+     *@Route("/modifierSortie/{id}",name="modifierSortie")
      */
     public function modifierSortie(Sortie $sortie, EntityManagerInterface $em, Request $request){
+
         $formulaireModifierSortie=$this->createForm(ModifierSortieFormType::class,$sortie);
         $formulaireModifierSortie->handleRequest($request);
 
@@ -131,5 +131,28 @@ class SortieController extends AbstractController
         return $this->renderForm("/sortie/modifierSortie.html.twig",
         compact('formulaireModifierSortie')
         );
+    }
+    /**
+     * @Route("/afficherSortie/{id}", name="afficherSortie");
+     */
+    public function afficherSortie(Sortie $sortie){
+
+        return $this->render("sortie/afficherSortie.html.twig",
+            compact('sortie'));
+    }
+    /**
+     * @Route("/api/listParticipants/{id}/", name="api_listParticipants")
+     */
+    public function apiListParticipants(Sortie $sortie){
+        $listParticipants=$sortie->getParticipants();
+        $tableau=[];
+        foreach ($listParticipants as $participant){
+            $tab['id']=$participant->getId();
+            $tab['pseudo']=$participant->getPseudo();
+            $tab['prenom']=$participant->getPrenom();
+            $tab['nom']=$participant->getNom();
+            $tableau[]=$tab;
+        }
+        return $this->json($tableau);
     }
 }
