@@ -2,11 +2,12 @@
 {% block contenu %}
     <div id="formulaireModifierSortie" class="offset-4 col-6">
         <h2>Modifier la sortie</h2>
-        {{ form.start(formulaireModifierSortie) }}
+        {{ form_start(formulaireModifierSortie) }}
         <div class="col-4">
-        {{ form.widget(formulaireModifierSortie) }}
+        {{ form_widget(formulaireModifierSortie) }}
         </div>
         <button type="submit" class="btn btn-dark">Modifier</button>
-        {{ form.end(formulaireModifierSortie) }}
+        {{ form_end(formulaireModifierSortie) }}
+            <a type="submit" class="btn btn-dark" href="{{ path('sortie_annulerSortie', {id : id }) }}">Annuler Sortie</a>
     </div>
 {% endblock %}
