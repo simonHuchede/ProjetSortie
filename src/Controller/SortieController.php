@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Form\ModifierSortieFormType;
 use App\Form\SortieFormType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -99,5 +100,34 @@ class SortieController extends AbstractController
 
         return $this->render("sortie/listSorties.html.twig");
 
+    }
+    /**
+     * @Route("/seDesister/{id}", name="seDesister")
+     */
+    public function seDesister(Sortie $sortie,EntityManagerInterface $em){
+        $user=$this->getUser();
+        $sortie->removeParticipant($user);
+        $em->persist($sortie);
+        $em->flush();
+        return $this->render("sortie/listSorties.html.twig");
+    }
+    /**
+     * Route("/modifierSortie/{id}",name="modifierSortie")
+     */
+    public function modifierSortie(Sortie $sortie, EntityManagerInterface $em, Request $request){
+        $formulaireModifierSortie=$this->createForm(ModifierSortieFormType::class,$sortie);
+        $formulaireModifierSortie->handleRequest($request);
+
+       if($formulaireModifierSortie->isSubmitted() && $formulaireModifierSortie->isValid()){
+         $em->flush();
+           $this->addFlash("success", "La sortie à été modifiée.");
+           return $this->redirectToRoute("sortie_listSorties");
+       }
+
+
+
+        return $this->renderForm("/sortie/modifierSortie.html.twig",
+        compact('formulaireModifierSortie')
+        );
     }
 }
