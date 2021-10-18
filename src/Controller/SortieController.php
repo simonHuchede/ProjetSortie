@@ -94,10 +94,14 @@ class SortieController extends AbstractController
      * @Route("/sinscrire/{id}",name="sinscrire")
      */
     public function sinscrire(Sortie $sortie,EntityManagerInterface $em){
-    $user =$this->getUser();
-    $sortie->addParticipant($user);
-    $em->persist($sortie);
-    $em->flush();
+        $dateDebut = $sortie->getDateLimiteInscription();
+
+        if ((new \DateTime('now')) < $dateDebut) {
+            $user =$this->getUser();
+            $sortie->addParticipant($user);
+            $em->persist($sortie);
+            $em->flush();
+        }
 
         return $this->redirectToRoute("sortie_listSorties");
 
@@ -106,31 +110,57 @@ class SortieController extends AbstractController
      * @Route("/seDesister/{id}", name="seDesister")
      */
     public function seDesister(Sortie $sortie,EntityManagerInterface $em){
-        $user=$this->getUser();
-        $sortie->removeParticipant($user);
-        $em->persist($sortie);
-        $em->flush();
-        return $this->redirectToRoute("sortie_listSorties");
+        $dateDebut = $sortie->getDateHeureDebut();
+
+        if ((new \DateTime('now')) < $dateDebut) {
+            $user=$this->getUser();
+            $sortie->removeParticipant($user);
+            $em->persist($sortie);
+            $em->flush();}
+
+
+        return $this->redirectToRoute( "sortie_listSorties");
     }
+
     /**
-     *@Route("/modifierSortie/{id}",name="modifierSortie")
+     * @Route("/modifierSortie/{id}", name="modifierSortie")
      */
     public function modifierSortie(Sortie $sortie, EntityManagerInterface $em, Request $request){
-
         $formulaireModifierSortie=$this->createForm(ModifierSortieFormType::class,$sortie);
         $formulaireModifierSortie->handleRequest($request);
+        $userId = $this->getUser()->getId();
+        $user2Id = $sortie->getOrganisateur()->getId();
 
-       if($formulaireModifierSortie->isSubmitted() && $formulaireModifierSortie->isValid()){
-         $em->flush();
-           $this->addFlash("success", "La sortie à été modifiée.");
-           return $this->redirectToRoute("sortie_listSorties");
-       }
+        if($userId == $user2Id) {
+            if($formulaireModifierSortie->isSubmitted() && $formulaireModifierSortie->isValid()){
+                $em->flush();
+                $this->addFlash("success", "La sortie a été modifiée.");
+                return $this->redirectToRoute("sortie_listSorties");
+            }}
 
 
 
-        return $this->renderForm("/sortie/modifierSortie.html.twig",
-        compact('formulaireModifierSortie')
+
+        return $this->render("/sortie/modifierSortie.html.twig",
+            ['formulaireModifierSortie'=>$formulaireModifierSortie->createView(),
+                'id'=>$sortie->getId()]
         );
+    }
+
+    /**
+     * @Route("/annulerSortie/{id}", name="annulerSortie")
+     */
+    public function annulerSortie(Sortie $sortie, EntityManagerInterface $em, EtatRepository $etatRepo){
+        $userId = $this->getUser()->getId();
+        $user2Id = $sortie->getOrganisateur()->getId();
+
+        if ($userId == $user2Id) { $etat = $etatRepo->find(6);
+            $sortie->setEtat($etat);
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash("succes", "La sortie a été annulée.");
+        }
+        return $this->render("sortie/listSorties.html.twig");
     }
     /**
      * @Route("/afficherSortie/{id}", name="afficherSortie");
