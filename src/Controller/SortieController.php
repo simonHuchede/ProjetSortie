@@ -71,6 +71,7 @@ class SortieController extends AbstractController
             $tab['nbInscriptionMax']=$sortie->getNbInscriptionsMax() ;
             $tab['etat']=$sortie->getEtat()->getLibelle() ;
             $tab['organisateur']=$sortie->getOrganisateur()->getPseudo() ;
+            $tab['nb']=$sortie->getNbParticipants();
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;
@@ -93,14 +94,10 @@ class SortieController extends AbstractController
      * @Route("/sinscrire/{id}",name="sinscrire")
      */
     public function sinscrire(Sortie $sortie,EntityManagerInterface $em){
-        $dateDebut = $sortie->getDateLimiteInscription();
-
-        if ((new \DateTime('now')) < $dateDebut) {
-            $user =$this->getUser();
-            $sortie->addParticipant($user);
-            $em->persist($sortie);
-            $em->flush();
-        }
+    $user =$this->getUser();
+    $sortie->addParticipant($user);
+    $em->persist($sortie);
+    $em->flush();
 
         return $this->redirectToRoute("sortie_listSorties");
 
@@ -109,56 +106,53 @@ class SortieController extends AbstractController
      * @Route("/seDesister/{id}", name="seDesister")
      */
     public function seDesister(Sortie $sortie,EntityManagerInterface $em){
-        $dateDebut = $sortie->getDateHeureDebut();
-
-        if ((new \DateTime('now')) < $dateDebut) {
-            $user=$this->getUser();
-            $sortie->removeParticipant($user);
-            $em->persist($sortie);
-            $em->flush();}
-
-
-        return $this->redirectToRoute( "sortie_listSorties");
+        $user=$this->getUser();
+        $sortie->removeParticipant($user);
+        $em->persist($sortie);
+        $em->flush();
+        return $this->redirectToRoute("sortie_listSorties");
     }
-
     /**
-     * @Route("/modifierSortie/{id}", name="modifierSortie")
+     *@Route("/modifierSortie/{id}",name="modifierSortie")
      */
     public function modifierSortie(Sortie $sortie, EntityManagerInterface $em, Request $request){
+
         $formulaireModifierSortie=$this->createForm(ModifierSortieFormType::class,$sortie);
         $formulaireModifierSortie->handleRequest($request);
-        $userId = $this->getUser()->getId();
-        $user2Id = $sortie->getOrganisateur()->getId();
 
-        if($userId == $user2Id) {
-            if($formulaireModifierSortie->isSubmitted() && $formulaireModifierSortie->isValid()){
-            $em->flush();
-            $this->addFlash("success", "La sortie a été modifiée.");
-            return $this->redirectToRoute("sortie_listSorties");
-        }}
+       if($formulaireModifierSortie->isSubmitted() && $formulaireModifierSortie->isValid()){
+         $em->flush();
+           $this->addFlash("success", "La sortie à été modifiée.");
+           return $this->redirectToRoute("sortie_listSorties");
+       }
 
 
 
-
-        return $this->render("/sortie/modifierSortie.html.twig",
-        ['formulaireModifierSortie'=>$formulaireModifierSortie->createView(),
-        'id'=>$sortie->getId()]
+        return $this->renderForm("/sortie/modifierSortie.html.twig",
+        compact('formulaireModifierSortie')
         );
     }
-
     /**
-     * @Route("/annulerSortie/{id}", name="annulerSortie")
+     * @Route("/afficherSortie/{id}", name="afficherSortie");
      */
-    public function annulerSortie(Sortie $sortie, EntityManagerInterface $em, EtatRepository $etatRepo){
-        $userId = $this->getUser()->getId();
-        $user2Id = $sortie->getOrganisateur()->getId();
+    public function afficherSortie(Sortie $sortie){
 
-        if ($userId == $user2Id) { $etat = $etatRepo->find(6);
-            $sortie->setEtat($etat);
-            $em->persist($sortie);
-            $em->flush();
-            $this->addFlash("succes", "La sortie a été annulée.");
-            }
-        return $this->render("sortie/listSorties.html.twig");
+        return $this->render("sortie/afficherSortie.html.twig",
+            compact('sortie'));
+    }
+    /**
+     * @Route("/api/listParticipants/{id}/", name="api_listParticipants")
+     */
+    public function apiListParticipants(Sortie $sortie){
+        $listParticipants=$sortie->getParticipants();
+        $tableau=[];
+        foreach ($listParticipants as $participant){
+            $tab['id']=$participant->getId();
+            $tab['pseudo']=$participant->getPseudo();
+            $tab['prenom']=$participant->getPrenom();
+            $tab['nom']=$participant->getNom();
+            $tableau[]=$tab;
+        }
+        return $this->json($tableau);
     }
 }

@@ -237,4 +237,7 @@ class Sortie
 
         return $this;
     }
+    public function getNbParticipants(){
+        return count($this->participants);
+    }
 }

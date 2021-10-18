@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateur;
 use App\Form\ModifierProfilFormType;
 
 use App\Repository\CampusRepository;
@@ -13,11 +14,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-
+/**
+ * @Route("/profil",name="profil_")
+ */
 class ProfilController extends AbstractController
 {
     /**
-     * @Route("/modifierprofil/{id}", name="profil_modifierprofil")
+     * @Route("/modifierprofil/{id}", name="modifierprofil")
      */
     public function modifierprofil( Request $request,
                                     $id,
@@ -56,9 +59,17 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute("main_home");
 
         }
-        return $this->render('main/monprofil.html.twig', [
+        return $this->render('profil/monprofil.html.twig', [
             'modifform' => $modifform->createView(),
             'campus'=> $campus,
         ]);
+    }
+
+    /**
+     * @Route("/afficherUnProfil/{id}",name="afficherUnProfil")
+     */
+    public function afficherUnProfil(Utilisateur $utilisateur){
+
+    return $this->render("profil/afficherUnProfil.html.twig",compact('utilisateur'));
     }
 }
