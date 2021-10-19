@@ -1,0 +1,17 @@
+{% extends '../base.html.twig' %}
+
+{% block contenu %}
+
+    {{ form_start(mdpform) }}
+
+    {{ form_widget(mdpform) }}
+    <button type="submit" class="btn btn-dark" >Enregistrer</button>
+
+    {{  form_end(mdpform) }}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

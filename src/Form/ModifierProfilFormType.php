@@ -25,9 +25,10 @@ class ModifierProfilFormType extends AbstractType
                 'label'=>'Photo de profil : ',
                 'mapped' => false,
                 'required' => false
+
                 ])
             //->add('roles')
-           // ->add('password')
+           //->add('password')
             //->add('administrateur')
             //->add('actif')
             //->add('estInscrit')

@@ -1,9 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block contenu %}
+    <div style="display: flex; justify-content: flex-start; margin-top:90px;margin-left:80px;border-radius:10px;height:250px;width:200px">
+        <img src="{{ asset('/img/'~app.user.image) }}" alt="" width="300" style=" border-radius:10px">
+    </div>
 
-<div id="form" class="offset-4 col-6">
+<div id="form" class="offset-4 col-6" style="margin-top:-250px">
     <h2>Modifier mon profil</h2>
+
     {{ form_start(modifform) }}
     <div class="col-4">
     {{ form_widget(modifform) }}
