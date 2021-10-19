@@ -13,12 +13,10 @@
     {{ form_widget(modifform) }}
     </div>
     <button type="submit" class="btn btn-dark">Enregistrer</button>
+    <a type="submit" class="btn btn-dark" href="{{ path('modifiermotdepasse',{ 'id': app.user.id } ) }}">Modifier Mot de Passe</a>
     <a type="submit" class="btn btn-dark" href="{{ path('main_home') }}">Annuler</a>
-
     {{ form_end(modifform) }}
     </div>
-
-
 
 {% endblock %}
 
