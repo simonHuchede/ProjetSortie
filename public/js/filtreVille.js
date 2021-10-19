@@ -6,6 +6,7 @@ function changeVille()
 {
     let  villeId = document.querySelector('#ville').value;
     afficherLieux(villeId);
+    console.log(villeId);
 
 
 }
@@ -15,7 +16,7 @@ function afficherLieux(villeId)
 {
    let selectLieux =document.querySelector('#lieu');
    selectLieux.innerHTML='';
-
+//console.log(lieux);
    for (let lieu of lieux){
        if (villeId == lieu.ville)
        {
