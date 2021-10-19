@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Entity\Utilisateur;
 use App\Form\ModifierSortieFormType;
 use App\Form\SortieFormType;
 use App\Repository\EtatRepository;
@@ -33,9 +34,11 @@ class SortieController extends AbstractController
         $formulaireSortie= $this->createForm(SortieFormType::class,$sortie);
         $formulaireSortie->handleRequest($request);
         $info = $request->get('info');
+        $dateCloture = $sortie->getDateLimiteInscription();
+        $dateDebut = $sortie->getDateHeureDebut();
 
 
-        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '1'){
+        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '1' && $dateCloture < $dateDebut){
             $etat = $repoEtat->find(1);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setCampus($utilisateur->getCampus());
@@ -43,7 +46,7 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
             return $this -> redirectToRoute("main_home");
-        } elseif ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '2'){
+        } elseif ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '2' && $dateCloture < $dateDebut){
             $etat = $repoEtat->find(2);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setCampus($utilisateur->getCampus());
@@ -144,12 +147,14 @@ class SortieController extends AbstractController
     /**
      * @Route("/sinscrire/{id}",name="sinscrire")
      */
-    public function sinscrire(Sortie $sortie,EntityManagerInterface $em){
+    public function sinscrire(Sortie $sortie,EntityManagerInterface $em, EtatRepository $etatRepo){
+        $etat = $etatRepo->find(2);
+        $etat2 = $sortie->getEtat();
         $dateDebut = $sortie->getDateLimiteInscription();
         $nbInscrits = $sortie->getNbParticipants();
         $nbInscritsMax = $sortie->getNbInscriptionsMax();
 
-        if ((new \DateTime('now')) < $dateDebut && $nbInscrits < $nbInscritsMax) {
+        if ((new \DateTime('now')) < $dateDebut && $nbInscrits < $nbInscritsMax && $etat === $etat2 ) {
             $user =$this->getUser();
             $sortie->addParticipant($user);
             $em->persist($sortie);
@@ -203,11 +208,12 @@ class SortieController extends AbstractController
     /**
      * @Route("/annulerSortie/{id}", name="annulerSortie")
      */
-    public function annulerSortie(Sortie $sortie, EntityManagerInterface $em, EtatRepository $etatRepo){
+    public function annulerSortie(Sortie $sortie, EntityManagerInterface $em, EtatRepository $etatRepo, Utilisateur $utilisateur){
         $userId = $this->getUser()->getId();
         $user2Id = $sortie->getOrganisateur()->getId();
 
-        if ($userId == $user2Id) { $etat = $etatRepo->find(6);
+        if ($userId == $user2Id) {
+            $etat = $etatRepo->find(6);
             $sortie->setEtat($etat);
             $em->persist($sortie);
             $em->flush();
