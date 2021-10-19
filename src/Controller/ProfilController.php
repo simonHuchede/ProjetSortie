@@ -57,7 +57,7 @@ class ProfilController extends AbstractController
             $em->flush();
             // Message flash
             $this->addFlash("success", "Votre profil a été modifié.");
-            return $this->redirectToRoute("profil_modifierprofil",['id' => $id]);
+            return $this->redirectToRoute("profil_modifierprofil",['id' => $user->getId()]);
 
         }
         return $this->render('profil/monprofil.html.twig', [

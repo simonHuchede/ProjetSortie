@@ -2,42 +2,57 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateur;
 use App\Form\ChangePasswordFormType;
 use App\Form\ModifierProfilFormType;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class MdpController extends AbstractController
 {
     /**
-     * @Route("/ChangeMdp", name="app_mdp")
+     * @Route("/changeMdp/{id}", name="modifiermotdepasse")
      */
-    public function login( Request $request,
+    public function changeMdp ( Request $request,
+                           $id,
                            EntityManagerInterface $em,
-                            User $user
-    ): Response
+                            Utilisateur $utilisateur,
+                                UserPasswordHasherInterface $userPasswordHasherInterface,
+                            UtilisateurRepository $utilisateurRepository
+
+    )
     {
-        $user=$this->getUser();
-        $mdpform = $this->createForm(ChangePasswordFormType::class, $user);
+        $utilisateur=$this->getUser();
+        $user = $utilisateurRepository->findOneBy(['id' => $id]);
+        $mdpform = $this->createForm(ChangePasswordFormType::class, $utilisateur);
         $mdpform ->handleRequest($request);
 
         if ($mdpform->isSubmitted() && $mdpform->isValid()){
 
-            $newpwd = $mdpform->get('password')->getData();
+            $newpwd = $mdpform->get('plainPassword')->getData();
 
-            $user->setPassword($newpwd);
+            $utilisateur->setPassword(
+
+            $userPasswordHasherInterface->hashPassword(
+                $user,
+                $mdpform->get('plainPassword')->getData()
+                )
+            );
 
         $em->flush();
         // Message flash
         $this->addFlash("success", "Votre Mot De passe a été modifié.");
-        return $this->redirectToRoute("main_home");
+        return $this->redirectToRoute("profil_modifierprofil",['id' => $user->getId()]);
 
     }
-        return $this->render('changemdp.html.twig',[
+        return $this->render('profil/changemdp.html.twig',[
         'mdpform' => $mdpform->createView()
         ]);
     }
