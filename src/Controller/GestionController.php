@@ -27,7 +27,7 @@ class GestionController extends AbstractController
         return $this->renderForm("/gestion/gestionApp.html.twig",compact("formulaireVille"));
     }
 /**
- * @Route("/ajouterVille",name="ajouter_ville")
+ *@Route("/ajouterVille",name="ajouter_ville")
  *@IsGranted("ROLE_ADMIN")
  */
 public function ajouterVille(Request $request, EntityManagerInterface $em){
