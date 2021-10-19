@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block contenu %}
+{{ form_start(formulaireLieu) }}
+{{ form_widget(formulaireLieu) }}
+    <button type="submit"class="btn btn-dark">Ajouter Lieu</button>
+{{ form_end(formulaireLieu) }}
+
+{% endblock %}

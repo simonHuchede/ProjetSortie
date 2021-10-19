@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Form\LieuFormType;
 use App\Form\ModifierSortieFormType;
 use App\Form\SortieFormType;
 use App\Repository\EtatRepository;
@@ -36,8 +38,8 @@ class SortieController extends AbstractController
         $info = $request->get('info');
         $dateCloture = $sortie->getDateLimiteInscription();
         $dateDebut = $sortie->getDateHeureDebut();
-
-
+        $lieu = new Lieu();
+        $formulaireLieu = $this->createForm(LieuFormType::class,$lieu);
         if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '1' && $dateCloture < $dateDebut){
             $etat = $repoEtat->find(1);
             $sortie->setOrganisateur($utilisateur);
@@ -55,7 +57,7 @@ class SortieController extends AbstractController
             $entityManager->flush();
             return $this -> redirectToRoute("main_home");
         }
-            return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie'));
+            return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie','formulaireLieu'));
     }
     /**
      * @Route("/api/ville-lieu/",name="apiVilleLieu")
@@ -243,5 +245,20 @@ class SortieController extends AbstractController
             $tableau[]=$tab;
         }
         return $this->json($tableau);
+    }
+    /**
+     * @Route("/ajouterLieu/{id}",name="ajouter_lieu")
+     */
+    public function ajouterLieu(EntityManagerInterface $em,VilleRepository $villeRepository,Request $request,$id){
+
+        $lieu = new Lieu();
+        $formulaireLieu = $this->createForm(LieuFormType::class,$lieu);
+        $formulaireLieu->handleRequest($request);
+
+            $em->persist($lieu);
+            $em->flush();
+
+        return $this->redirectToRoute('sortie_creerSortie',compact('id'));
+
     }
 }

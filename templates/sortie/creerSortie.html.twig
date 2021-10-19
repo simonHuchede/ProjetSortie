@@ -14,11 +14,17 @@
 
 
             </select>
-            <label class="form-label" for="lieu">Lieu: </label>
-            <select class="form-control " name="lieu" id="lieu">
+            <div class="row">
+                <label class="form-label" for="lieu">Lieu: </label>
+                <select class="form-control " name="lieu" id="lieu">
 
 
-            </select>
+                </select>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lieuModal">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+            
 
             <input type="hidden" value="1" id="info" name="info">
         {{ form_end(formulaireSortie)}}
@@ -28,6 +34,31 @@
         </div>
     </div>
 
+    <div class="modal" tabindex="-1" id="lieuModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formulaireLieu,{'action': path('sortie_ajouter_lieu',{'id': app.user.id}), 'attr': {'id':'formLieu'}}) }}
+                    {{ form_widget(formulaireLieu) }}
+
+                    {{ form_end(formulaireLieu) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="lieuSubmit()">Enregister</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function lieuSubmit(){
+            document.querySelector('#formLieu').submit();
+        }
+    </script>
     <script src="{{ asset('js/formButton.js') }}"></script>
 
     <script src="{{ asset('js/filtreVille.js') }}">
