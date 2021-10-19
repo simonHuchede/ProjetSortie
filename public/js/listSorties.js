@@ -17,6 +17,7 @@ function afficherTab(tableau){
         let clone=template.content.cloneNode(true);
         //je mets un selecteur à l'interieur de la partie html clonée
         let tabTd=clone.querySelectorAll("td");// j'ai un tableau
+        //if (sortie.dateHeureDebut < sortie.dateHeureDebut.getMonth()-1){
         tabTd[0].innerHTML=sortie.nom ;
         tabTd[1].innerHTML=new Date(sortie.dateHeureDebut).toLocaleString('fr-FR');
         tabTd[2].innerHTML=new Date(sortie.dateLimiteInscription).toLocaleDateString('fr-FR');
@@ -29,6 +30,7 @@ function afficherTab(tableau){
         tabTd[6].querySelector("#btnAfficher").setAttribute("href",urlAfficher2);
         //tabTd['participants']=sortie.participants;
         tbody.appendChild(clone);
+        //}
     }
 
 }

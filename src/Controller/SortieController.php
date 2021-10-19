@@ -28,7 +28,7 @@ class SortieController extends AbstractController
      */
     public function creerSortie(Request $request,
                                  EntityManagerInterface $entityManager,
-                                $id,UtilisateurRepository $utilisateurRepository,EtatRepository $repoEtat){
+                                $id,UtilisateurRepository $utilisateurRepository,EtatRepository $repoEtat, LieuRepository $repoLieu){
         $utilisateur=$utilisateurRepository->findOneBy(['id'=>$id]);
         $sortie = new Sortie();
         $formulaireSortie= $this->createForm(SortieFormType::class,$sortie);
@@ -40,20 +40,25 @@ class SortieController extends AbstractController
 
         if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '1' && $dateCloture < $dateDebut){
             $etat = $repoEtat->find(1);
+            $lieuId = $request->get('lieu');
+            $lieu = $repoLieu->find($lieuId);
+            $sortie->setLieu($lieu);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setCampus($utilisateur->getCampus());
             $sortie->setEtat($etat);
             $entityManager->persist($sortie);
             $entityManager->flush();
-            return $this -> redirectToRoute("main_home");
+            return $this -> redirectToRoute("sortie_listSorties");
         } elseif ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '2' && $dateCloture < $dateDebut){
             $etat = $repoEtat->find(2);
+            $lieuId = $request->get('lieu');
+            $repoLieu->find($lieuId);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setCampus($utilisateur->getCampus());
             $sortie->setEtat($etat);
             $entityManager->persist($sortie);
             $entityManager->flush();
-            return $this -> redirectToRoute("main_home");
+            return $this -> redirectToRoute("sortie_listSorties");
         }
             return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie'));
     }
