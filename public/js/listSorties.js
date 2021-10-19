@@ -1,5 +1,6 @@
 
 function afficherTab(tableau){
+   // console.log(myUser);
 //selecteur sur le template et sur le tableau
     let tbody=document.querySelector("#myTbody");
     let template=document.querySelector("#ligne");
@@ -7,6 +8,7 @@ function afficherTab(tableau){
     let urlSeDesister="../../sortie/seDesister/";
     let urlModifierSortie="../../sortie/modifierSortie/";
     let urlAfficher="../../sortie/afficherSortie/";
+    //let utilisateurConnecte = ;
     for (let sortie of tableau){
         //j'ajoute l'id de ma sortie à l'url de sinscrire
         let urlsinscrire2=urlSinscrire+sortie.id;
@@ -25,8 +27,14 @@ function afficherTab(tableau){
         tabTd[4].innerHTML=sortie.etat;
         tabTd[5].innerHTML= sortie.organisateur;
         tabTd[6].querySelector("#btnSinscrire").setAttribute("href",urlsinscrire2);
+
+        if(myUser == sortie.idPseudo){
+            tabTd[6].querySelector("#btnModifierSortie").setAttribute("href",urlModifierSortie2);
+        } else {
+            tabTd[6].querySelector("#btnModifierSortie").innerHTML='';
+        }
+
         tabTd[6].querySelector("#btnSedesister").setAttribute("href",urlSeDesister2);
-        tabTd[6].querySelector("#btnModifierSortie").setAttribute("href",urlModifierSortie2);
         tabTd[6].querySelector("#btnAfficher").setAttribute("href",urlAfficher2);
         //tabTd['participants']=sortie.participants;
         tbody.appendChild(clone);

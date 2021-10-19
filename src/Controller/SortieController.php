@@ -131,6 +131,7 @@ class SortieController extends AbstractController
             $tab['dateLimiteInscription']=$sortie->getDateLimiteInscription() ;
             $tab['nbInscriptionMax']=$sortie->getNbInscriptionsMax() ;
             $tab['etat']=$sortie->getEtat()->getLibelle() ;
+            $tab['idPseudo']=$sortie->getOrganisateur()->getId();
             $tab['organisateur']=$sortie->getOrganisateur()->getPseudo() ;
             $tab['nb']=$sortie->getNbParticipants();
             //$tab['participants']=$sortie->getParticipants() ;
