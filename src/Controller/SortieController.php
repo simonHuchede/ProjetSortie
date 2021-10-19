@@ -7,8 +7,10 @@ use App\Entity\Sortie;
 use App\Form\ModifierSortieFormType;
 use App\Form\SortieFormType;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UtilisateurRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,6 +54,46 @@ class SortieController extends AbstractController
         }
             return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie'));
     }
+    /**
+     * @Route("/api/ville-lieu/",name="apiVilleLieu")
+     */
+    public function apiVilleLieu (VilleRepository $villeRepository,LieuRepository $lieuRepository){
+
+        $villes=$villeRepository->findAll();
+        $tab_villes=[];
+
+        foreach ($villes as $v)
+        {
+           $infos_v['id'] = $v->getId();
+           $infos_v['nom'] = $v->getNom();
+           $infos_v['codePostal'] = $v->getCodePostal();
+           $tab_villes[]=$infos_v;
+
+        }
+
+        $lieux=$lieuRepository->findAll();
+        $tab_lieux=[];
+
+        foreach ($lieux as $lieu)
+        {
+            $infos_l['id'] = $lieu->getId();
+            $infos_l['nom'] = $lieu->getNom();
+            $infos_l['rue'] = $lieu->getRue();
+            $infos_l['latitude'] = $lieu->getLatitude();
+            $infos_l['longitude'] = $lieu->getLongitutde();
+            $infos_l['ville'] = $lieu->getVille()->getId();
+            $tab_lieux[]=$infos_l;
+
+        }
+        $tab["villes"]=$tab_villes;
+        $tab["lieux"]=$tab_lieux;
+
+        return $this->json($tab);
+    }
+
+
+
+
     /**
      * @Route("/listSorties",name="listSorties")
      */

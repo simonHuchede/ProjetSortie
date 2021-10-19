@@ -36,10 +36,10 @@ class SortieFormType extends AbstractType
                 'expanded'=>true,
                 "multiple"=>false
             ])*/
-            ->add('lieu',null,[
+            /*->add('lieu',null,[
                 "choice_label"=>"nom",
                 "multiple"=>false
-            ])
+            ])*/
             //->add('campus',EntityType::class)
             //->add('participants')
             //->add('organisateur') b

@@ -8,6 +8,18 @@
         {{ form_start(formulaireSortie, { 'attr': {'id' : 'formCreerSortie'}}) }}
 
             {{ form_widget(formulaireSortie)}}
+
+            <label class="form-label" for="ville">Ville: </label>
+            <select class="form-control " name="ville" id="ville" onchange="changeVille()">
+
+
+            </select>
+            <label class="form-label" for="lieu">Lieu: </label>
+            <select class="form-control " name="lieu" id="lieu">
+
+
+            </select>
+
             <input type="hidden" value="1" id="info" name="info">
         {{ form_end(formulaireSortie)}}
             <button onclick="enregistrer()" class="btn btn-dark mt-3" name="Enregistrer">Enregistrer</button>
@@ -17,4 +29,8 @@
     </div>
 
     <script src="{{ asset('js/formButton.js') }}"></script>
+
+    <script src="{{ asset('js/filtreVille.js') }}">
+
+    </script>
 {% endblock %}
