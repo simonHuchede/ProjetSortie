@@ -42,9 +42,17 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_register') }}">Nouvel utilisateur</a>
-                                <a class="nav-link" href=""></a>
+
                             </li>
                         {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+
+                                <a class="nav-link" href="{{ path('gestion_gestion_app') }}">Gestionnaire d'application</a>
+                            </li>
+                        {% endif %}
+
+
                         {% if app.user() %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('profil_modifierprofil',{ 'id': app.user.id }) }}">Mon profil</a>

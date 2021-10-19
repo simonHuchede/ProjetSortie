@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block contenu %}
+    <div class="container">
+        <div class="row">
+            <div class=" offset-4 col-4">
+                <button type="button" class="btn btn-primary col-12 my-5" data-bs-toggle="modal" data-bs-target="#villeModal">
+                    Nouvelle Ville
+                </button>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" id="villeModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouvelle Ville</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formulaireVille,{'action': path('gestion_ajouter_ville'), 'attr': {'id':'formVille'}}) }}
+                    {{ form_widget(formulaireVille) }}
+
+                    {{ form_end(formulaireVille) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="villeSubmit()">Enregister</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function villeSubmit(){
+            document.querySelector('#formville').submit();
+        }
+    </script>
+{% endblock %}
