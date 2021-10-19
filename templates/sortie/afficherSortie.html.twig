@@ -8,23 +8,39 @@
                Nom de la sortie : {{ sortie.nom }}
             </div>
             <div class="col-6">
-                campus: {{ sortie.campus.nom }}
+                Campus : {{ sortie.campus.nom }}
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                Date et heure de la sortie: {{ sortie.dateHeureDebut |date('d/m/y H:i') }}
+                Date et heure de la sortie : {{ sortie.dateHeureDebut |date('d/m/y H:i') }}
             </div>
             <div class="col-6">
-                Lieu: {{ sortie.lieu.nom }}
+                Lieu : {{ sortie.lieu.nom }}
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                Date limite d'inscription: {{ sortie.dateLimiteInscription |date('d/m/y H:i') }}
+                Date limite d'inscription : {{ sortie.dateLimiteInscription |date('d/m/y H:i') }}
             </div>
             <div class="col-6">
-                Rue: {{ sortie.lieu.rue }}
+                Rue : {{ sortie.lieu.rue }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Ville : {{ sortie.lieu.ville.nom }}
+            </div>
+            <div class="col-6">
+                Code postal : {{ sortie.lieu.ville.codePostal }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Durée : {{ sortie.duree }} minutes
+            </div>
+            <div class="col-6">
+                Latitude : {{ sortie.lieu.latitude }}
             </div>
         </div>
         <div class="row">
@@ -32,23 +48,12 @@
                 Nombre de places: {{ sortie.nbInscriptionsMax }}
             </div>
             <div class="col-6">
-                Code postal: {{ sortie.lieu.ville.codePostal }}
+                Longitude : {{ sortie.lieu.longitutde }}
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                Durée: {{ sortie.duree }} minutes
-            </div>
-            <div class="col-6">
-                Latitude: {{ sortie.lieu.latitude }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                Description et infos: {{ sortie.infosSortie }}
-            </div>
-            <div class="col-6">
-                Longitude: {{ sortie.lieu.longitutde }}
+                Description et infos : {{ sortie.infosSortie }}
             </div>
         </div>
         <div class="row">
