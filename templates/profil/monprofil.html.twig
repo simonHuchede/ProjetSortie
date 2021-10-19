@@ -15,8 +15,9 @@
 
     <input type="hidden" value="1" id="infoProfil" name="infoProfil">
     {{ form_end(modifform) }}
-    <button onclick="modifyProfile()" class="btn btn-dark" name="Enregistrer">Enregistrer</button>
-    <a class="btn btn-dark" href="{{ path('main_home') }}">Annuler</a>
+    <button onclick="modifyProfile()" class="btn btn-dark mt-3" name="Enregistrer">Enregistrer</button>
+    <a class="btn btn-dark mt-3" href="{{ path('main_home') }}">Annuler</a>
+    <a class="btn btn-dark mt-3" href="{{ path('modifiermotdepasse', {'id' : app.user.id }) }}">Modifier mot de passe</a>
     </div>
 
     <script src="{{ asset('js/formButtonModifyProfile.js') }}"></script>
