@@ -26,12 +26,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/creerSortie/{id}", name="creerSortie")
+     * @Route("/creerSortie/", name="creerSortie")
      */
     public function creerSortie(Request $request,
                                  EntityManagerInterface $entityManager,
-                                $id,UtilisateurRepository $utilisateurRepository,EtatRepository $repoEtat, LieuRepository $repoLieu){
-        $utilisateur=$utilisateurRepository->findOneBy(['id'=>$id]);
+                                UtilisateurRepository $utilisateurRepository,EtatRepository $repoEtat, LieuRepository $repoLieu){
+        //$utilisateur=$utilisateurRepository->findOneBy(['id'=>$id]);
+        $utilisateur = $this->getUser();
         $sortie = new Sortie();
         $formulaireSortie= $this->createForm(SortieFormType::class,$sortie);
         $formulaireSortie->handleRequest($request);
@@ -252,9 +253,9 @@ class SortieController extends AbstractController
         return $this->json($tableau);
     }
     /**
-     * @Route("/ajouterLieu/{id}",name="ajouter_lieu")
+     * @Route("/ajouterLieu/",name="ajouter_lieu")
      */
-    public function ajouterLieu(EntityManagerInterface $em,VilleRepository $villeRepository,Request $request,$id){
+    public function ajouterLieu(EntityManagerInterface $em,VilleRepository $villeRepository,Request $request){
 
         $lieu = new Lieu();
         $formulaireLieu = $this->createForm(LieuFormType::class,$lieu);
@@ -263,7 +264,7 @@ class SortieController extends AbstractController
             $em->persist($lieu);
             $em->flush();
 
-        return $this->redirectToRoute('sortie_creerSortie',compact('id'));
+        return $this->redirectToRoute('sortie_creerSortie');
 
     }
 }

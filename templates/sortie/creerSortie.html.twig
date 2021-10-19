@@ -42,7 +42,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{ form_start(formulaireLieu,{'action': path('sortie_ajouter_lieu',{'id': app.user.id}), 'attr': {'id':'formLieu'}}) }}
+                    {{ form_start(formulaireLieu,{'action': path('sortie_ajouter_lieu'), 'attr': {'id':'formLieu'}}) }}
                     {{ form_widget(formulaireLieu) }}
 
                     {{ form_end(formulaireLieu) }}
