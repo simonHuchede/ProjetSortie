@@ -6,7 +6,7 @@ function afficherTab(tableau){
     let urlSinscrire="../../sortie/sinscrire/";
     let urlSeDesister="../../sortie/seDesister/";
     let urlModifierSortie="../../sortie/modifierSortie/";
-    let urlAfficher="../../sortie/afficherSortie/"
+    let urlAfficher="../../sortie/afficherSortie/";
     for (let sortie of tableau){
         //j'ajoute l'id de ma sortie à l'url de sinscrire
         let urlsinscrire2=urlSinscrire+sortie.id;
@@ -18,8 +18,8 @@ function afficherTab(tableau){
         //je mets un selecteur à l'interieur de la partie html clonée
         let tabTd=clone.querySelectorAll("td");// j'ai un tableau
         tabTd[0].innerHTML=sortie.nom ;
-        tabTd[1].innerHTML=sortie.dateHeureDebut;
-        tabTd[2].innerHTML=sortie.dateLimiteInscription;
+        tabTd[1].innerHTML=new Date(sortie.dateHeureDebut).toLocaleString('fr-FR');
+        tabTd[2].innerHTML=new Date(sortie.dateLimiteInscription).toLocaleDateString('fr-FR');
         tabTd[3].innerHTML=sortie.nb+"/"+sortie.nbInscriptionMax ;
         tabTd[4].innerHTML=sortie.etat;
         tabTd[5].innerHTML= sortie.organisateur;
