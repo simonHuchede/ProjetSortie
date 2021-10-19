@@ -5,14 +5,16 @@
     <div class="offset-4 col-8">
         <div class="offset-1 col-4">
         <h1>Nouvelle sortie</h1>
-        {{ form_start(formulaireSortie)}}
+        {{ form_start(formulaireSortie, { 'attr': {'id' : 'formCreerSortie'}}) }}
 
             {{ form_widget(formulaireSortie)}}
-            <button type="submit" class="btn btn-dark">Enregistrer</button>
-            <button type="submit" class="btn btn-dark">Publier la sortie</button>
-            <button type="reset" class="btn btn-dark">Annuler</button>
+            <input type="hidden" value="1" id="info" name="info">
         {{ form_end(formulaireSortie)}}
+            <button onclick="enregistrer()" class="btn btn-dark mt-3" name="Enregistrer">Enregistrer</button>
+            <button onclick="publier()" class="btn btn-dark mt-3" name="Publier">Publier la sortie</button>
+            <a href="{{ path('sortie_listSorties') }}" class="btn btn-dark mt-2">Annuler</a>
         </div>
     </div>
 
+    <script src="{{ asset('js/formButton.js') }}"></script>
 {% endblock %}

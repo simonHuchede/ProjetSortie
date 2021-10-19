@@ -19,7 +19,7 @@ class ModifierSortieFormType extends AbstractType
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
             //->add('etat')
-            ->add('lieu',null,[
+            ->add('lieu', null,[
                 "choice_label"=>"nom",
                 "multiple"=>false
             ])
