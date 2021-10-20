@@ -65,6 +65,9 @@ let url = '../../sortie/api/listSorties/';
                 tableau = tab;
                 afficherTab(tableau);
                 console.log(tableau);
+                for (let s of tab){
+                    s.dateHeureDebut2 = new Date(s.heureComparaison);
+                }
             }
         );
 
@@ -93,6 +96,13 @@ let url = '../../sortie/api/listSorties/';
         if(datePassee){
             tableau2 = filtrerDatePassee(tableau2);
         }
+
+        let dateDebut = document.querySelector('#datePremiere').value;
+        tableau2 = filtrerPremiereDate(tableau2, dateDebut);
+
+        let dateFin = document.querySelector('#dateSeconde').value;
+        tableau2 = filtrerSecondeDate(tableau2, dateFin);
+
 
         afficherTab(tableau2);
     }
@@ -134,7 +144,7 @@ let url = '../../sortie/api/listSorties/';
     function filtrerOrganisteur(tab){
         let tableau2 = [];
         for (s of tab){
-            if ( s.userOranisateur === true){
+            if ( s.estOrganisateur === true){
                 tableau2.push(s);
             }
         }
@@ -144,7 +154,7 @@ let url = '../../sortie/api/listSorties/';
     function filtrerInscrit(tab){
         let tableau2 = [];
         for (s of tab){
-            if(s.userInscrit === true){
+            if(s.estInscrit === true){
                 tableau2.push(s);
             }
         }
@@ -154,7 +164,7 @@ let url = '../../sortie/api/listSorties/';
     function filtrerNonInscrit(tab){
         let tableau2 = [];
         for (s of tab){
-            if(s.userInscrit === false){
+            if(s.estInscrit === false){
                 tableau2.push(s);
             }
         }
@@ -163,11 +173,46 @@ let url = '../../sortie/api/listSorties/';
     //-----------------------------------------------------------------------
     function filtrerDatePassee(tab){
         let tableau2 = [];
+        let dateJour = new Date();
         for (s of tab){
-            if (s.datePassee){
+            if (s.dateHeureDebut2 < dateJour){
                 tableau2.push(s);
             }
         }
         return tableau2;
     }
     //-----------------------------------------------------------------------
+function filtrerPremiereDate(tab, dateDebut) {
+    let tab2 = [];
+
+    if (dateDebut.length >0) {
+        dateDebut = new Date(dateDebut);
+        for (let s of tab)
+        {
+            if (s.dateHeureDebut2 >= dateDebut) {
+                tab2.push(s);
+            }
+        }
+    }else {
+        tab2 = tab;
+    }
+    return tab2;
+}
+
+//------------------------------------
+
+function filtrerSecondeDate(tab, dateFin) {
+    let tab2 = [];
+    if (dateFin.length >0) {
+        dateFin = new Date(dateFin);
+        for (let s of tab)
+        {
+            if (s.dateHeureDebut2 <= dateFin) {
+                tab2.push(s);
+            }
+        }
+    }else {
+        tab2 = tab;
+    }
+    return tab2;
+}

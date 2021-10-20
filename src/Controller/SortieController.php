@@ -9,6 +9,7 @@ use App\Entity\Utilisateur;
 use App\Form\LieuFormType;
 use App\Form\ModifierSortieFormType;
 use App\Form\SortieFormType;
+use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
@@ -20,6 +21,7 @@ use phpDocumentor\Reflection\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @Route("/sortie",name="sortie_")
@@ -103,10 +105,10 @@ class SortieController extends AbstractController
     /**
      * @Route("/listSorties",name="listSorties")
      */
-    public function listSorties()
+    public function listSorties(CampusRepository $repoCampus)
     {
-
-        return $this->render("sortie/listSorties.html.twig");
+        $listCampus = $repoCampus->findBy([],["nom"=>"ASC"]);
+        return $this->render("sortie/listSorties.html.twig", compact('listCampus'));
     }
 
 
@@ -122,6 +124,9 @@ class SortieController extends AbstractController
 
         // boucle foreach pour récuperer tout ce qu'il y a dans le tableau
         foreach ($listSorties as $sortie){
+
+            $dateDebut = $sortie->getDateHeureDebut();
+
             $tab['id']=$sortie->getId() ;
             $tab['nom']=$sortie->getNom() ;
             $tab['dateHeureDebut']=$sortie->getDateHeureDebut() ;
@@ -131,8 +136,10 @@ class SortieController extends AbstractController
             $tab['idPseudo']=$sortie->getOrganisateur()->getId();
             $tab['organisateur']=$sortie->getOrganisateur()->getPseudo() ;
             $tab['nb']=$sortie->getNbParticipants();
+            $tab['campus']=$sortie->getCampus()->getId();
             $tab['estOrganisateur']=$service->verifEstOrganisateur($sortie, $user);
             $tab['estInscrit']=$service->verifEstInscrit($sortie,$user);
+            $tab['heureComparaison']= $dateDebut;
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;

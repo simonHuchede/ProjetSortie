@@ -2,31 +2,41 @@
 
 {% block contenu %}
     <div class="container">
-        <div>
-            Campus :
-            <select name="campus" id="campus" onchange="filtrer()">
-                <option value="0">Filtrer par campus</option>
-                {% for chaqueCampus in listCampus %}
+        <h3>Filtrer les sorties</h3>
+        <div class="row">
+            <div class="col-6">
+            <div >
+                Campus :
+                <select name="campus" id="campus" onchange="filtrer()">
+                    <option value="0">Filtrer par campus</option>
+                    {% for chaqueCampus in listCampus %}
                     <option value="{{ chaqueCampus.id }}">{{ chaqueCampus.nom }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-2">
-            Le nom de la sortie contient : <input type="text" class="form-control" id="nom" placeholder="Rechercher" onkeyup="filtrer()">
-        </div>
-        <div class="choix">
-            <div class="checkbox">
-                <label><input type="checkbox" id="estOrga" onclick="filtrer();"/>Sorties dont je suis l'organisateur</label>
+                    {% endfor %}
+                </select>
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="estInscrit" onclick="filtrer();"/>Sorties auxquelles je suis inscris</label>
+            <div>
+                Le nom de la sortie contient : <input type="text" class="form-control" id="nom" placeholder="Rechercher" onkeyup="filtrer()">
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="estNInscrit" onclick="filtrer();"/>Sorties auxquelles je ne suis pas inscris</label>
+            <div>
+                Entre le <input type="date" id="datePremiere" onchange="filtrer()" class="form-control">  Et le <input type="date" id="dateSeconde" onchange="filtrer()" class="form-control">
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="datePassee" onclick="filtrer();"/>Sorties passées</label>
             </div>
+
+            <div class="choix col-6 mt-5">
+                <div class="checkbox">
+                    <label><input type="checkbox" id="estOrga" onclick="filtrer();"/> Sorties dont je suis l'organisateur</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="estInscrit" onclick="filtrer();"/> Sorties auxquelles je suis inscris</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="estNInscrit" onclick="filtrer();"/> Sorties auxquelles je ne suis pas inscris</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="datePassee" onclick="filtrer();"/> Sorties passées</label>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="container">

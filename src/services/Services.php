@@ -26,5 +26,4 @@ public function verifEstInscrit( $sortie, $user){
 }
 
 
-
 }
