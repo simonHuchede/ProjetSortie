@@ -17,10 +17,43 @@
     {{ form_end(modifform) }}
     <button onclick="modifyProfile()" class="btn btn-dark mt-3" name="Enregistrer">Enregistrer</button>
     <a class="btn btn-dark mt-3" href="{{ path('main_home') }}">Annuler</a>
-    <a class="btn btn-dark mt-3" href="{{ path('modifiermotdepasse', {'id' : app.user.id }) }}">Modifier mot de passe</a>
+    {#<a class="btn btn-dark mt-3" href="{{ path('modifiermotdepasse', {'id' : app.user.id }) }}">Modifier mot de passe</a>#}
+    </div>
+<div class="offset-4 col-4">
+    <button type="button" class="btn-sm btn-danger small col-4 my-2" data-bs-toggle="modal" data-bs-target="#mdpModal">
+        Modifier Mot de Passe
+    </button>
+</div>
+    <div class="modal" tabindex="-1" id="mdpModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modifier Mot De Passe</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(mdpform, {'action': path('modifiermotdepasse',{ 'id': app.user.id }), 'attr':{'id':'mdpform'}}) }}
+
+                    {{ form_widget(mdpform) }}
+
+                {{  form_end(mdpform) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="modifierMdpSubmit()">Enregister</button>
+                </div>
+            </div>
+        </div>
     </div>
 
+
     <script src="{{ asset('js/formButtonModifyProfile.js') }}"></script>
+    <script>
+        function modifierMdpSubmit(){
+            document.querySelector('#mdpform').submit();
+        }
+
+    </script>
 
 {% endblock %}
 

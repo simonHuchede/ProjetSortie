@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
@@ -10,12 +9,12 @@ use App\Entity\Utilisateur;
 use App\Form\LieuFormType;
 use App\Form\ModifierSortieFormType;
 use App\Form\SortieFormType;
-use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UtilisateurRepository;
 use App\Repository\VilleRepository;
+use App\services\Services;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,16 +40,14 @@ class SortieController extends AbstractController
         $info = $request->get('info');
         $dateCloture = $sortie->getDateLimiteInscription();
         $dateDebut = $sortie->getDateHeureDebut();
-        $lieu = new Lieu();
-        $formulaireLieu = $this->createForm(LieuFormType::class,$lieu);
-        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $dateCloture < $dateDebut){
-
-            if ($info == '1'){
+        $newLieu = new Lieu();
+        $formulaireLieu = $this->createForm(LieuFormType::class,$newLieu);
+        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() &&  $dateCloture < $dateDebut){
+            if($info =='1'){
                 $etat = $repoEtat->find(1);
-            } elseif ($info == '2'){
+            }elseif ($info == '2'){
                 $etat = $repoEtat->find(2);
             }
-
             $lieuId = $request->get('lieu');
             $lieu = $repoLieu->find($lieuId);
             $sortie->setLieu($lieu);
@@ -61,7 +58,7 @@ class SortieController extends AbstractController
             $entityManager->flush();
             return $this -> redirectToRoute("sortie_listSorties");
         }
-        return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie','formulaireLieu'));
+            return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie','formulaireLieu'));
     }
     /**
      * @Route("/api/ville-lieu/",name="apiVilleLieu")
@@ -106,21 +103,22 @@ class SortieController extends AbstractController
     /**
      * @Route("/listSorties",name="listSorties")
      */
-    public function listSorties(CampusRepository $repoCampus)
+    public function listSorties()
     {
-        $listCampus = $repoCampus->findAll();
-        return $this->render("sortie/listSorties.html.twig", compact("listCampus"));
+
+        return $this->render("sortie/listSorties.html.twig");
     }
 
 
     /**
      * @Route("/api/listSorties/",name="api_listSorties")
      */
-    public function apiListSorties(SortieRepository $sortieRepository)
+    public function apiListSorties(SortieRepository $sortieRepository, Services $service)
     {
-       // $userOrganisateur = $service-> ;
+
         $listSorties=$sortieRepository->findAll();
         $tableau=[];
+        $user=$this->getUser();
 
         // boucle foreach pour récuperer tout ce qu'il y a dans le tableau
         foreach ($listSorties as $sortie){
@@ -133,7 +131,8 @@ class SortieController extends AbstractController
             $tab['idPseudo']=$sortie->getOrganisateur()->getId();
             $tab['organisateur']=$sortie->getOrganisateur()->getPseudo() ;
             $tab['nb']=$sortie->getNbParticipants();
-            $tab['campus']=$sortie->getCampus()->getId();
+            $tab['estOrganisateur']=$service->verifEstOrganisateur($sortie, $user);
+            $tab['estInscrit']=$service->verifEstInscrit($sortie,$user);
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;
@@ -267,5 +266,4 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_creerSortie');
 
     }
-
 }

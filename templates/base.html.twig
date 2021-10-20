@@ -39,12 +39,7 @@
                                 <a class="nav-link" href="{{ path('sortie_listSorties') }}">Liste des sorties</a>
                             </li>
                         {% endif %}
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_register') }}">Nouvel utilisateur</a>
 
-                            </li>
-                        {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="nav-item">
 
