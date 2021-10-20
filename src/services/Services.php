@@ -25,5 +25,4 @@ public function verifEstInscrit( $sortie, $user){
     return $test;
 }
 
-
 }
