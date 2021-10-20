@@ -121,9 +121,10 @@ class SortieController extends AbstractController
         $listSorties=$sortieRepository->findAll();
         $tableau=[];
         $user=$this->getUser();
-
+        $service->clotureInscription();
         // boucle foreach pour récuperer tout ce qu'il y a dans le tableau
         foreach ($listSorties as $sortie){
+
             $tab['id']=$sortie->getId() ;
             $tab['nom']=$sortie->getNom() ;
             $tab['dateHeureDebut']=$sortie->getDateHeureDebut() ;
@@ -160,7 +161,6 @@ class SortieController extends AbstractController
         $etat = $etatRepo->find(2);
         $etat2 = $sortie->getEtat();
         $datelimite = $sortie->getDateLimiteInscription();
-        $datedebut = $sortie->getDateHeureDebut();
         $nbInscrits = $sortie->getNbParticipants();
         $nbInscritsMax = $sortie->getNbInscriptionsMax();
 
@@ -270,21 +270,6 @@ class SortieController extends AbstractController
 
     }
 
-    public function clotureInscription (SortieRepository $sortieRepository,
-                                 EntityManagerInterface $em,
-                                 EtatRepository $etatRepo){
-        $etat = $etatRepo->find(3);
-        $sorties=$sortieRepository->findAll();
-        foreach ($sorties as $sortie ){
-            if ((new \DateTime('now')) == $sortie->getDateLimiteInscription()){
-                $sortie->setEtat($etat);
 
-
-            }
-        }
-        $em->flush();
-        return $this->redirectToRoute('sortie_listSorties');
-
-    }
 
 }

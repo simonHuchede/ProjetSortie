@@ -3,10 +3,26 @@
 namespace App\services;
 
 use App\Entity\Sortie;
+use App\Repository\EtatRepository;
+use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Services
 {
-public function verifEstOrganisateur(Sortie $sortie, $user){
+    protected $sortieRepository;
+    protected $em;
+    protected $etatRepo;
+    public function __construct(SortieRepository $sortieRepository,
+                                EntityManagerInterface $em,
+                                EtatRepository $etatRepo)
+    {
+        $this->sortieRepository=$sortieRepository;
+        $this->em=$em;
+        $this->etatRepo=$etatRepo;
+
+    }
+
+    public function verifEstOrganisateur(Sortie $sortie, $user){
     if($sortie->getOrganisateur()->getId() == $user->getId()){
         return true;
     }else{
@@ -24,7 +40,20 @@ public function verifEstInscrit( $sortie, $user){
     }
     return $test;
 }
+    public function clotureInscription (){
+        $etat = $this->etatRepo->find(3);
+        $sorties=$this->sortieRepository->findAll();
+        foreach ($sorties as $sortie ){
+            if ((new \DateTime('now')) >= $sortie->getDateLimiteInscription()){
+                $sortie->setEtat($etat);
 
+
+            }
+        }
+        $this->em->flush();
+
+
+    }
 
 
 }

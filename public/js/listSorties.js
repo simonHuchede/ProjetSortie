@@ -25,27 +25,32 @@ function afficherTab(tableau){
         tabTd[2].innerHTML=new Date(sortie.dateLimiteInscription).toLocaleDateString('fr-FR');
         tabTd[3].innerHTML=sortie.nb+"/"+sortie.nbInscriptionMax ;
         tabTd[4].innerHTML=sortie.etat;
-        tabTd[5].innerHTML= sortie.organisateur;
-        tabTd[6].querySelector("#btnSinscrire").setAttribute("href",urlsinscrire2);
+
+        if (sortie.estInscrit== false){
+            tabTd[5].querySelector('i').setAttribute('hidden','');
+
+        }
+        tabTd[6].innerHTML= sortie.organisateur;
+        tabTd[7].querySelector("#btnSinscrire").setAttribute("href",urlsinscrire2);
 
 
         if(sortie.estInscrit == true){
-            tabTd[6].querySelector("#btnSinscrire").setAttribute("hidden",'');
+            tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
 
         }
         if(myUser == sortie.idPseudo){
-            tabTd[6].querySelector("#btnModifierSortie").setAttribute("href",urlModifierSortie2);
+            tabTd[7].querySelector("#btnModifierSortie").setAttribute("href",urlModifierSortie2);
         }
         if(sortie.estOrganisateur == false){
-            tabTd[6].querySelector("#btnModifierSortie").setAttribute("hidden",'');
+            tabTd[7].querySelector("#btnModifierSortie").setAttribute("hidden",'');
 
         }
 
-            tabTd[6].querySelector("#btnAfficher").setAttribute("href",urlAfficher2);
-            tabTd[6].querySelector("#btnSedesister").setAttribute("href",urlSeDesister2);
+            tabTd[7].querySelector("#btnAfficher").setAttribute("href",urlAfficher2);
+            tabTd[7].querySelector("#btnSedesister").setAttribute("href",urlSeDesister2);
 
         if(sortie.estInscrit == false){
-            tabTd[6].querySelector("#btnSedesister").setAttribute("hidden",'');
+            tabTd[7].querySelector("#btnSedesister").setAttribute("hidden",'');
         }
 
 
