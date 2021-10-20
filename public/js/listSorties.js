@@ -1,4 +1,6 @@
 
+let tableau = [];
+
 function afficherTab(tableau){
    // console.log(myUser);
 //selecteur sur le template et sur le tableau
@@ -8,7 +10,7 @@ function afficherTab(tableau){
     let urlSeDesister="../../sortie/seDesister/";
     let urlModifierSortie="../../sortie/modifierSortie/";
     let urlAfficher="../../sortie/afficherSortie/";
-    //let utilisateurConnecte = ;
+    tbody.innerHTML='';
     for (let sortie of tableau){
         //j'ajoute l'id de ma sortie à l'url de sinscrire
         let urlsinscrire2=urlSinscrire+sortie.id;
@@ -45,8 +47,54 @@ function afficherTab(tableau){
 let url = '../../sortie/api/listSorties/';
     fetch(url)
         .then(response=>response.json())
-        .then(tableau=>
+        .then(tab=>
             {
+                tableau = tab;
                 afficherTab(tableau);
+                console.log(tableau);
             }
         );
+
+    //-----------------------------------------------------------------------
+    function filtrer(){
+        let tableau2 = tableau;
+        tableau2 = filtrerNom(tableau2);
+        tableau2 = filtrerCampus(tableau2);
+
+        afficherTab(tableau2);
+    }
+    //-----------------------------------------------------------------------
+    function filtrerNom(tab){
+        let tableau2 = [];
+        let nom = document.querySelector('#nom').value;
+        if (nom.length > 0){
+            for ( let s of tab){
+                if ( s.nom.indexOf(nom) != -1 ){
+                    tableau2.push(s);
+                }
+            }
+        }else{
+            tableau2 =tab; // je filtre pas
+        }
+       return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerCampus(tab){
+        let tableau2 = [];
+        let campus = document.querySelector('#campus').value;
+        console.log(campus);
+
+        if (campus != 0){
+            for (let s of tab){
+
+                if(s.campus == campus){
+
+                    tableau2.push(s);
+                }
+            }
+        } else {
+            tableau2 = tab;
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------

@@ -2,6 +2,19 @@
 
 {% block contenu %}
     <div class="container">
+        <div>
+            <select name="campus" id="campus" onchange="filtrer()">
+                <option value="0">Filtrer par campus</option>
+                {% for chaqueCampus in listCampus %}
+                    <option value="{{ chaqueCampus.id }}">{{ chaqueCampus.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-2">
+            Le nom de la sortie contient : <input type="text" class="form-control" id="nom" placeholder="Rechercher" onkeyup="filtrer()">
+        </div>
+    </div>
+    <div class="container">
             <div class="row">
                     <div class="col-12">
                             <table class="table table-striped">

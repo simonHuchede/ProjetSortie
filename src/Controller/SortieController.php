@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
@@ -9,6 +10,7 @@ use App\Entity\Utilisateur;
 use App\Form\LieuFormType;
 use App\Form\ModifierSortieFormType;
 use App\Form\SortieFormType;
+use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
@@ -108,10 +110,10 @@ class SortieController extends AbstractController
     /**
      * @Route("/listSorties",name="listSorties")
      */
-    public function listSorties()
+    public function listSorties(CampusRepository $repoCampus)
     {
-
-        return $this->render("sortie/listSorties.html.twig");
+        $listCampus = $repoCampus->findAll();
+        return $this->render("sortie/listSorties.html.twig", compact("listCampus"));
     }
 
 
@@ -135,6 +137,7 @@ class SortieController extends AbstractController
             $tab['idPseudo']=$sortie->getOrganisateur()->getId();
             $tab['organisateur']=$sortie->getOrganisateur()->getPseudo() ;
             $tab['nb']=$sortie->getNbParticipants();
+            $tab['campus']=$sortie->getCampus()->getId();
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;
@@ -268,4 +271,5 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_creerSortie');
 
     }
+
 }
