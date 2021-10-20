@@ -60,6 +60,7 @@ class SortieController extends AbstractController
             $entityManager->flush();
             return $this -> redirectToRoute("sortie_listSorties");
         }
+
             return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie','formulaireLieu'));
     }
     /**
@@ -164,11 +165,12 @@ class SortieController extends AbstractController
     public function sinscrire(Sortie $sortie,EntityManagerInterface $em, EtatRepository $etatRepo){
         $etat = $etatRepo->find(2);
         $etat2 = $sortie->getEtat();
-        $dateDebut = $sortie->getDateLimiteInscription();
+        $datelimite = $sortie->getDateLimiteInscription();
+        $datedebut = $sortie->getDateHeureDebut();
         $nbInscrits = $sortie->getNbParticipants();
         $nbInscritsMax = $sortie->getNbInscriptionsMax();
 
-        if ((new \DateTime('now')) < $dateDebut && $nbInscrits < $nbInscritsMax && $etat === $etat2 ) {
+        if ((new \DateTime('now')) < $datelimite && $nbInscrits < $nbInscritsMax && $etat === $etat2 ) {
             $user =$this->getUser();
             $sortie->addParticipant($user);
             $em->persist($sortie);
@@ -273,4 +275,22 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_creerSortie');
 
     }
+
+    public function clotureInscription (SortieRepository $sortieRepository,
+                                 EntityManagerInterface $em,
+                                 EtatRepository $etatRepo){
+        $etat = $etatRepo->find(3);
+        $sorties=$sortieRepository->findAll();
+        foreach ($sorties as $sortie ){
+            if ((new \DateTime('now')) == $sortie->getDateLimiteInscription()){
+                $sortie->setEtat($etat);
+
+
+            }
+        }
+        $em->flush();
+        return $this->redirectToRoute('sortie_listSorties');
+
+    }
+
 }
