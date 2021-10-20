@@ -1,4 +1,6 @@
 
+let tableau = [];
+
 function afficherTab(tableau){
    // console.log(myUser);
 //selecteur sur le template et sur le tableau
@@ -8,7 +10,7 @@ function afficherTab(tableau){
     let urlSeDesister="../../sortie/seDesister/";
     let urlModifierSortie="../../sortie/modifierSortie/";
     let urlAfficher="../../sortie/afficherSortie/";
-    //let utilisateurConnecte = ;
+    tbody.innerHTML='';
     for (let sortie of tableau){
         //j'ajoute l'id de ma sortie à l'url de sinscrire
         let urlsinscrire2=urlSinscrire+sortie.id;
@@ -63,10 +65,159 @@ function afficherTab(tableau){
 let url = '../../sortie/api/listSorties/';
     fetch(url)
         .then(response=>response.json())
-        .then(tableau=>
+        .then(tab=>
             {
+                tableau = tab;
                 afficherTab(tableau);
+                console.log(tableau);
+                for (let s of tab){
+                    s.dateHeureDebut2 = new Date(s.heureComparaison);
+                }
             }
         );
 
+    //-----------------------------------------------------------------------
+    function filtrer(){
+        let tableau2 = tableau;
+        tableau2 = filtrerNom(tableau2);
+        tableau2 = filtrerCampus(tableau2);
 
+        let userOrganisateur = document.querySelector('#estOrga').checked;
+        if (userOrganisateur){
+            tableau2 = filtrerOrganisteur(tableau2);
+        }
+
+        let estInscrit = document.querySelector('#estInscrit').checked;
+        if(estInscrit){
+            tableau2 = filtrerInscrit(tableau2);
+        }
+
+        let estNInscrit = document.querySelector('#estNInscrit').checked;
+        if (estNInscrit){
+            tableau2 = filtrerNonInscrit(tableau2);
+        }
+
+        let datePassee = document.querySelector('#datePassee').checked;
+        if(datePassee){
+            tableau2 = filtrerDatePassee(tableau2);
+        }
+
+        let dateDebut = document.querySelector('#datePremiere').value;
+        tableau2 = filtrerPremiereDate(tableau2, dateDebut);
+
+        let dateFin = document.querySelector('#dateSeconde').value;
+        tableau2 = filtrerSecondeDate(tableau2, dateFin);
+
+
+        afficherTab(tableau2);
+    }
+    //-----------------------------------------------------------------------
+    function filtrerNom(tab){
+        let tableau2 = [];
+        let nom = document.querySelector('#nom').value;
+        if (nom.length > 0){
+            for ( let s of tab){
+                if ( s.nom.indexOf(nom) != -1 ){
+                    tableau2.push(s);
+                }
+            }
+        }else{
+            tableau2 =tab; // je filtre pas
+        }
+       return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerCampus(tab){
+        let tableau2 = [];
+        let campus = document.querySelector('#campus').value;
+        console.log(campus);
+
+        if (campus != 0){
+            for (let s of tab){
+
+                if(s.campus == campus){
+
+                    tableau2.push(s);
+                }
+            }
+        } else {
+            tableau2 = tab;
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerOrganisteur(tab){
+        let tableau2 = [];
+        for (s of tab){
+            if ( s.estOrganisateur === true){
+                tableau2.push(s);
+            }
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerInscrit(tab){
+        let tableau2 = [];
+        for (s of tab){
+            if(s.estInscrit === true){
+                tableau2.push(s);
+            }
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerNonInscrit(tab){
+        let tableau2 = [];
+        for (s of tab){
+            if(s.estInscrit === false){
+                tableau2.push(s);
+            }
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerDatePassee(tab){
+        let tableau2 = [];
+        let dateJour = new Date();
+        for (s of tab){
+            if (s.dateHeureDebut2 < dateJour){
+                tableau2.push(s);
+            }
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------
+function filtrerPremiereDate(tab, dateDebut) {
+    let tab2 = [];
+
+    if (dateDebut.length >0) {
+        dateDebut = new Date(dateDebut);
+        for (let s of tab)
+        {
+            if (s.dateHeureDebut2 >= dateDebut) {
+                tab2.push(s);
+            }
+        }
+    }else {
+        tab2 = tab;
+    }
+    return tab2;
+}
+
+//------------------------------------
+
+function filtrerSecondeDate(tab, dateFin) {
+    let tab2 = [];
+    if (dateFin.length >0) {
+        dateFin = new Date(dateFin);
+        for (let s of tab)
+        {
+            if (s.dateHeureDebut2 <= dateFin) {
+                tab2.push(s);
+            }
+        }
+    }else {
+        tab2 = tab;
+    }
+    return tab2;
+}
