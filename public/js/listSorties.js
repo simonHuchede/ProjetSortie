@@ -35,6 +35,9 @@ function afficherTab(tableau){
         tabTd[6].innerHTML= sortie.organisateur;
         tabTd[7].querySelector("#btnSinscrire").setAttribute("href",urlsinscrire2);
 
+        if (sortie.estCloturee == true){
+            tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
+        }
 
         if(sortie.estInscrit == true){
             tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');

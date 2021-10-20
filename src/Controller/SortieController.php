@@ -141,6 +141,7 @@ class SortieController extends AbstractController
             $tab['estOrganisateur']=$service->verifEstOrganisateur($sortie, $user);
             $tab['estInscrit']=$service->verifEstInscrit($sortie,$user);
             $tab['heureComparaison']= $dateDebut;
+            $tab['estCloturee']=$service->verifEstCloture($sortie);
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;

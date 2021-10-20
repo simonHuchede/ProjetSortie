@@ -55,5 +55,14 @@ public function verifEstInscrit( $sortie, $user){
 
     }
 
+    public function verifEstCloture($sortie){
+        $test = false;
+        $etat = $sortie->getEtat();
+        if ($etat == $this->etatRepo->find(3)){
+            $test = true;
+        }
+        return $test;
+    }
+
 
 }
