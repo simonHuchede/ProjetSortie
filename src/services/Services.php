@@ -44,7 +44,7 @@ public function verifEstInscrit( $sortie, $user){
         $etat = $this->etatRepo->find(3);
         $sorties=$this->sortieRepository->findAll();
         foreach ($sorties as $sortie ){
-            if ((new \DateTime('now')) >= $sortie->getDateLimiteInscription()){
+            if ((new \DateTime('now')) >= $sortie->getDateLimiteInscription()&&(new \DateTime('now')) < $sortie->getDateHeureDebut()){
                 $sortie->setEtat($etat);
 
 
@@ -85,6 +85,34 @@ public function verifEstInscrit( $sortie, $user){
             $test = true;
         }
         return $test;
+    }
+    public function estPassee(){
+        $etat = $this->etatRepo->find(5);
+        $sorties=$this->sortieRepository->findAll();
+
+
+        foreach ($sorties as $sortie ){
+            $duree=$sortie->getDuree();
+            if ((new \DateTime('now')) >= $sortie->getDateHeureDebut()->add(new \DateInterval('PT' . $duree . 'M'))){
+                $sortie->setEtat($etat);
+
+
+            }
+        }
+    }
+    public function estEnCours(){
+        $etat = $this->etatRepo->find(4);
+        $sorties=$this->sortieRepository->findAll();
+
+
+        foreach ($sorties as $sortie ){
+            $duree=$sortie->getDuree();
+            if ((new \DateTime('now')) < $sortie->getDateHeureDebut()->add(new \DateInterval('PT' . $duree . 'M')) && (new \DateTime('now')) >= $sortie->getDateHeureDebut()){
+                $sortie->setEtat($etat);
+
+
+            }
+        }
     }
 
 }

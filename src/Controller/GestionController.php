@@ -25,13 +25,16 @@ class GestionController extends AbstractController
      *@Route("/gestionApp",name="gestion_app")
      *@IsGranted("ROLE_ADMIN")
      */
-    public function gestionApp(UtilisateurRepository $utilisateurRepository){
+    public function gestionApp(UtilisateurRepository $utilisateurRepository,
+                               SortieRepository $sortieRepository){
+        $archives=$sortieRepository->findByEtat(7);
+
         $user = new Utilisateur();
         $registrationForm  = $this->createForm(RegistrationFormType::class, $user);
         $ville = new Ville();
         $formulaireVille=$this->createForm(VilleFormType::class,$ville);
         $utilisateurs=$utilisateurRepository->findAll();
-        return $this->renderForm("/gestion/gestionApp.html.twig",compact("formulaireVille","utilisateurs","registrationForm"));
+        return $this->renderForm("/gestion/gestionApp.html.twig",compact("formulaireVille","utilisateurs","registrationForm","archives"));
     }
 /**
  *@Route("/ajouterVille",name="ajouter_ville")
@@ -70,7 +73,8 @@ public function supprimerUtilisateur(Utilisateur $u,
  * @Route("/afficherArchives",name="afficher_archives")
  */
 public function afficherArchives(SortieRepository $sortieRepository){
-    $archives=$sortieRepository->findBy(['etat_id'=>7]);
-    dd($archives);
+    $archives=$sortieRepository->findByEtat(7);
+    return $this->render("gestion/gestionApp.html.twig",
+    compact("archives"));
 }
 }

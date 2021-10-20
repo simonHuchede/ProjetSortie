@@ -18,7 +18,15 @@ class SortieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Sortie::class);
     }
-
+    public function findByEtat($value)
+    {
+        return $this->createQueryBuilder('sortie')
+            ->andWhere('sortie.etat = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */

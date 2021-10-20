@@ -124,6 +124,8 @@ class SortieController extends AbstractController
         $user=$this->getUser();
         $service->clotureInscription();
         $service->archiver();
+        $service->estPassee();
+        $service->estEnCours();
         $listSorties=$sortieRepository->findAll();
         // boucle foreach pour récuperer tout ce qu'il y a dans le tableau
         foreach ($listSorties as $sortie){
@@ -220,7 +222,8 @@ class SortieController extends AbstractController
 
         return $this->render("/sortie/modifierSortie.html.twig",
             ['formulaireModifierSortie'=>$formulaireModifierSortie->createView(),
-                'id'=>$sortie->getId()]
+                'id'=>$sortie->getId(),
+                'sortie'=>$sortie]
         );
     }
 
@@ -277,6 +280,23 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('sortie_creerSortie');
 
+    }
+
+    /**
+     * @Route("/publierSortie/{id}",name="publier_sortie")
+     */
+    public function publierSortie(Sortie $sortie,
+                                  EntityManagerInterface $entityManager,
+                                  EtatRepository $etatRepository,
+                                  UtilisateurRepository $utilisateurRepository){
+        $user=$this->getUser()->getUserIdentifier();
+        $organisateur=$sortie->getOrganisateur()->getUserIdentifier();
+        $etat=$etatRepository->find(2);
+        if($user == $organisateur){
+            $sortie->setEtat($etat);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('sortie_listSorties');
     }
 
 
