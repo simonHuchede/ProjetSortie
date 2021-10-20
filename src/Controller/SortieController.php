@@ -199,16 +199,26 @@ class SortieController extends AbstractController
     /**
      * @Route("/modifierSortie/{id}", name="modifierSortie")
      */
-    public function modifierSortie(Sortie $sortie, EntityManagerInterface $em, Request $request){
+    public function modifierSortie(Sortie $sortie, EntityManagerInterface $em, Request $request, EtatRepository $repoEtat){
         $formulaireModifierSortie=$this->createForm(ModifierSortieFormType::class,$sortie);
         $formulaireModifierSortie->handleRequest($request);
+        $infoSortie = $request->get('infoSortie');
         $userId = $this->getUser()->getId();
         $user2Id = $sortie->getOrganisateur()->getId();
 
         if($userId == $user2Id) {
             if($formulaireModifierSortie->isSubmitted() && $formulaireModifierSortie->isValid()){
-                $em->flush();
-                $this->addFlash("success", "La sortie a été modifiée.");
+                if($infoSortie == '1'){
+                    $em->flush();
+                    $this->addFlash("success", "La sortie a été modifiée.");
+                } elseif ($infoSortie == '2'){
+                    $etat = $repoEtat->find(2);
+                    $sortie->setEtat($etat);
+                    $em->persist($sortie);
+                    $em->flush();
+                    $this->addFlash("success", "La sortie a été publiée.");
+                }
+
                 return $this->redirectToRoute("sortie_listSorties");
             }}
 
