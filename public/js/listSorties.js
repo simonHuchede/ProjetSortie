@@ -52,6 +52,10 @@ function afficherTab(tableau){
         }
 
             tabTd[7].querySelector("#btnAfficher").setAttribute("href",urlAfficher2);
+        if(sortie.estArchivee == true){
+            tabTd[7].querySelector("#btnAfficher").setAttribute("hidden",'');
+
+        }
             tabTd[7].querySelector("#btnSedesister").setAttribute("href",urlSeDesister2);
 
         if(sortie.estInscrit == false){
