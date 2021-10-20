@@ -49,7 +49,7 @@ class MdpController extends AbstractController
         return $this->redirectToRoute("profil_modifierprofil",['id' => $user->getId()]);
 
     }
-        return $this->render('profil/changemdp.html.twig',[
+        return $this->render('profil/monprofil.html.twig',[
         'mdpform' => $mdpform->createView()
         ]);
     }

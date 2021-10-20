@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Form\ChangePasswordFormType;
 use App\Form\ModifierProfilFormType;
 
 use App\Repository\CampusRepository;
@@ -11,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -24,13 +26,18 @@ class ProfilController extends AbstractController
      */
     public function modifierprofil( Request $request,
                                     $id,
+                                    Utilisateur $utilisateur,
                                     UtilisateurRepository $utilisateurRepository,
                                     EntityManagerInterface $em ,
                                     CampusRepository $campusRepository,
-                                    SluggerInterface $slugger)
+                                    SluggerInterface $slugger,
+                                    UserPasswordHasherInterface $userPasswordHasherInterface
+    )
     {
-        $campus=$campusRepository->findAll();
+        $utilisateur=$this->getUser();
         $user = $utilisateurRepository->findOneBy(['id' => $id]);
+        $mdpform = $this->createForm(ChangePasswordFormType::class, $utilisateur);
+        $campus=$campusRepository->findAll();
         $info = $request->get('infoProfil');
         $modifform = $this->createForm(ModifierProfilFormType::class, $user);
         $modifform->handleRequest($request);
@@ -55,6 +62,7 @@ class ProfilController extends AbstractController
                 $user->setImage($newFileName);
             }
 
+
             $em->flush();
             // Message flash
             $this->addFlash("success", "Votre profil a été modifié.");
@@ -63,6 +71,7 @@ class ProfilController extends AbstractController
         }
         return $this->render('profil/monprofil.html.twig', [
             'modifform' => $modifform->createView(),
+            'mdpform' => $mdpform->createView(),
             'campus'=> $campus,
         ]);
     }
