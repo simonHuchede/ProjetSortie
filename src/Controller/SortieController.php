@@ -119,10 +119,12 @@ class SortieController extends AbstractController
     public function apiListSorties(SortieRepository $sortieRepository, Services $service)
     {
 
-        $listSorties=$sortieRepository->findAll();
+
         $tableau=[];
         $user=$this->getUser();
         $service->clotureInscription();
+        $service->archiver();
+        $listSorties=$sortieRepository->findAll();
         // boucle foreach pour récuperer tout ce qu'il y a dans le tableau
         foreach ($listSorties as $sortie){
 
@@ -142,6 +144,7 @@ class SortieController extends AbstractController
             $tab['estInscrit']=$service->verifEstInscrit($sortie,$user);
             $tab['heureComparaison']= $dateDebut;
             $tab['estCloturee']=$service->verifEstCloture($sortie);
+            $tab['estArchivee']=$service->verifEstArchivee($sortie);
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;

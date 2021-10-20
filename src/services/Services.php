@@ -64,5 +64,27 @@ public function verifEstInscrit( $sortie, $user){
         return $test;
     }
 
+    public function archiver(){
+        $etat = $this->etatRepo->find(7);
+        $sorties=$this->sortieRepository->findAll();
+
+        foreach ($sorties as $sortie ){
+            if ((new \DateTime('now')) >= $sortie->getDateHeureDebut()->add(new \DateInterval('P30D'))){
+                $sortie->setEtat($etat);
+
+
+            }
+        }
+
+        $this->em->flush();
+    }
+    public function verifEstArchivee($sortie){
+        $test = false;
+        $etat = $sortie->getEtat();
+        if ($etat == $this->etatRepo->find(7)){
+            $test = true;
+        }
+        return $test;
+    }
 
 }

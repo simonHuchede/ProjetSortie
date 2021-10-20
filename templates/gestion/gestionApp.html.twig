@@ -17,6 +17,11 @@
                     Ajouter Utilisateur
                 </button>
             </div>
+        <div class="offset-4 col-4">
+            <button type="button" class="btn btn-primary col-12 my-5" data-bs-toggle="modal" data-bs-target="#archivesModal">
+                Consulter Les Archives
+            </button>
+        </div>
     </div>
     <div class="modal" tabindex="-1" id="villeModal">
         <div class="modal-dialog">
@@ -93,6 +98,48 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="ajouterSubmit()">Enregister</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" id="supprimerModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Archives</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="col-2">Nom de la sortie</th>
+                            <th class="col-4">Date de la sortie</th>
+                            <th class="col-4">Clôture</th>
+                            <th class="col-4">inscrits/places</th>
+                            <th class="col-4">Etat</th>
+                            <th class="col-4">Inscrit</th>
+                            <th class="col-4">Organisateur</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for utilisateur in utilisateurs %}
+                            <tr>
+                                <td>{{ utilisateur.pseudo }}</td>
+                                <td>{{ utilisateur.nom }}</td>
+                                <td>{{ utilisateur.prenom }}</td>
+                                {#  <button type="button" class="btn btn-primary" onclick=""><i class="bi bi-trash-fill"></i></button>#}
+                                <td><a class="btn btn-danger" href="{{ path('gestion_supprimer_utilisateur', {'id': utilisateur.id}) }}">
+                                        <i class="fa fa-trash"></i>
+                                    </a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
                 </div>
             </div>
         </div>

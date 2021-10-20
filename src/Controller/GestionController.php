@@ -6,6 +6,7 @@ use App\Entity\Utilisateur;
 use App\Entity\Ville;
 use App\Form\RegistrationFormType;
 use App\Form\VilleFormType;
+use App\Repository\SortieRepository;
 use App\Repository\UtilisateurRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -64,5 +65,12 @@ public function supprimerUtilisateur(Utilisateur $u,
  $em->remove($u);
  $em->flush();
  return $this->redirectToRoute("gestion_gestion_app");
+}
+/**
+ * @Route("/afficherArchives",name="afficher_archives")
+ */
+public function afficherArchives(SortieRepository $sortieRepository){
+    $archives=$sortieRepository->findBy(['etat_id'=>7]);
+    dd($archives);
 }
 }
