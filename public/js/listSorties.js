@@ -61,6 +61,26 @@ let url = '../../sortie/api/listSorties/';
         tableau2 = filtrerNom(tableau2);
         tableau2 = filtrerCampus(tableau2);
 
+        let userOrganisateur = document.querySelector('#estOrga').checked;
+        if (userOrganisateur){
+            tableau2 = filtrerOrganisteur(tableau2);
+        }
+
+        let estInscrit = document.querySelector('#estInscrit').checked;
+        if(estInscrit){
+            tableau2 = filtrerInscrit(tableau2);
+        }
+
+        let estNInscrit = document.querySelector('#estNInscrit').checked;
+        if (estNInscrit){
+            tableau2 = filtrerNonInscrit(tableau2);
+        }
+
+        let datePassee = document.querySelector('#datePassee').checked;
+        if(datePassee){
+            tableau2 = filtrerDatePassee(tableau2);
+        }
+
         afficherTab(tableau2);
     }
     //-----------------------------------------------------------------------
@@ -94,6 +114,46 @@ let url = '../../sortie/api/listSorties/';
             }
         } else {
             tableau2 = tab;
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerOrganisteur(tab){
+        let tableau2 = [];
+        for (s of tab){
+            if ( s.userOranisateur === true){
+                tableau2.push(s);
+            }
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerInscrit(tab){
+        let tableau2 = [];
+        for (s of tab){
+            if(s.userInscrit === true){
+                tableau2.push(s);
+            }
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerNonInscrit(tab){
+        let tableau2 = [];
+        for (s of tab){
+            if(s.userInscrit === false){
+                tableau2.push(s);
+            }
+        }
+        return tableau2;
+    }
+    //-----------------------------------------------------------------------
+    function filtrerDatePassee(tab){
+        let tableau2 = [];
+        for (s of tab){
+            if (s.datePassee){
+                tableau2.push(s);
+            }
         }
         return tableau2;
     }

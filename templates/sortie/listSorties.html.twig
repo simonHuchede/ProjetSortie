@@ -3,6 +3,7 @@
 {% block contenu %}
     <div class="container">
         <div>
+            Campus :
             <select name="campus" id="campus" onchange="filtrer()">
                 <option value="0">Filtrer par campus</option>
                 {% for chaqueCampus in listCampus %}
@@ -12,6 +13,20 @@
         </div>
         <div class="col-2">
             Le nom de la sortie contient : <input type="text" class="form-control" id="nom" placeholder="Rechercher" onkeyup="filtrer()">
+        </div>
+        <div class="choix">
+            <div class="checkbox">
+                <label><input type="checkbox" id="estOrga" onclick="filtrer();"/>Sorties dont je suis l'organisateur</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" id="estInscrit" onclick="filtrer();"/>Sorties auxquelles je suis inscris</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" id="estNInscrit" onclick="filtrer();"/>Sorties auxquelles je ne suis pas inscris</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" id="datePassee" onclick="filtrer();"/>Sorties passées</label>
+            </div>
         </div>
     </div>
     <div class="container">

@@ -43,8 +43,14 @@ class SortieController extends AbstractController
         $dateDebut = $sortie->getDateHeureDebut();
         $lieu = new Lieu();
         $formulaireLieu = $this->createForm(LieuFormType::class,$lieu);
-        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '1' && $dateCloture < $dateDebut){
-            $etat = $repoEtat->find(1);
+        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $dateCloture < $dateDebut){
+
+            if ($info == '1'){
+                $etat = $repoEtat->find(1);
+            } elseif ($info == '2'){
+                $etat = $repoEtat->find(2);
+            }
+
             $lieuId = $request->get('lieu');
             $lieu = $repoLieu->find($lieuId);
             $sortie->setLieu($lieu);
@@ -54,18 +60,8 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
             return $this -> redirectToRoute("sortie_listSorties");
-        } elseif ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '2' && $dateCloture < $dateDebut){
-            $etat = $repoEtat->find(2);
-            $lieuId = $request->get('lieu');
-            $repoLieu->find($lieuId);
-            $sortie->setOrganisateur($utilisateur);
-            $sortie->setCampus($utilisateur->getCampus());
-            $sortie->setEtat($etat);
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            return $this -> redirectToRoute("sortie_listSorties");
         }
-            return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie','formulaireLieu'));
+        return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie','formulaireLieu'));
     }
     /**
      * @Route("/api/ville-lieu/",name="apiVilleLieu")
@@ -122,7 +118,7 @@ class SortieController extends AbstractController
      */
     public function apiListSorties(SortieRepository $sortieRepository)
     {
-
+       // $userOrganisateur = $service-> ;
         $listSorties=$sortieRepository->findAll();
         $tableau=[];
 
