@@ -28,14 +28,27 @@ function afficherTab(tableau){
         tabTd[5].innerHTML= sortie.organisateur;
         tabTd[6].querySelector("#btnSinscrire").setAttribute("href",urlsinscrire2);
 
+
+        if(sortie.estInscrit == true){
+            tabTd[6].querySelector("#btnSinscrire").setAttribute("hidden",'');
+
+        }
         if(myUser == sortie.idPseudo){
             tabTd[6].querySelector("#btnModifierSortie").setAttribute("href",urlModifierSortie2);
-        } else {
-            tabTd[6].querySelector("#btnModifierSortie").innerHTML='';
+        }
+        if(sortie.estOrganisateur == false){
+            tabTd[6].querySelector("#btnModifierSortie").setAttribute("hidden",'');
+
         }
 
-        tabTd[6].querySelector("#btnSedesister").setAttribute("href",urlSeDesister2);
-        tabTd[6].querySelector("#btnAfficher").setAttribute("href",urlAfficher2);
+            tabTd[6].querySelector("#btnAfficher").setAttribute("href",urlAfficher2);
+            tabTd[6].querySelector("#btnSedesister").setAttribute("href",urlSeDesister2);
+
+        if(sortie.estInscrit == false){
+            tabTd[6].querySelector("#btnSedesister").setAttribute("hidden",'');
+        }
+
+
         //tabTd['participants']=sortie.participants;
         tbody.appendChild(clone);
         //}
