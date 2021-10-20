@@ -14,6 +14,7 @@ use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UtilisateurRepository;
 use App\Repository\VilleRepository;
+use App\services\Services;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,23 +41,17 @@ class SortieController extends AbstractController
         $info = $request->get('info');
         $dateCloture = $sortie->getDateLimiteInscription();
         $dateDebut = $sortie->getDateHeureDebut();
-        $lieu = new Lieu();
-        $formulaireLieu = $this->createForm(LieuFormType::class,$lieu);
-        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '1' && $dateCloture < $dateDebut){
-            $etat = $repoEtat->find(1);
+        $newLieu = new Lieu();
+        $formulaireLieu = $this->createForm(LieuFormType::class,$newLieu);
+        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() &&  $dateCloture < $dateDebut){
+            if($info =='1'){
+                $etat = $repoEtat->find(1);
+            }elseif ($info == '2'){
+                $etat = $repoEtat->find(2);
+            }
             $lieuId = $request->get('lieu');
             $lieu = $repoLieu->find($lieuId);
             $sortie->setLieu($lieu);
-            $sortie->setOrganisateur($utilisateur);
-            $sortie->setCampus($utilisateur->getCampus());
-            $sortie->setEtat($etat);
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            return $this -> redirectToRoute("sortie_listSorties");
-        } elseif ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() && $info == '2' && $dateCloture < $dateDebut){
-            $etat = $repoEtat->find(2);
-            $lieuId = $request->get('lieu');
-            $repoLieu->find($lieuId);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setCampus($utilisateur->getCampus());
             $sortie->setEtat($etat);
@@ -120,11 +115,12 @@ class SortieController extends AbstractController
     /**
      * @Route("/api/listSorties/",name="api_listSorties")
      */
-    public function apiListSorties(SortieRepository $sortieRepository)
+    public function apiListSorties(SortieRepository $sortieRepository, Services $service)
     {
 
         $listSorties=$sortieRepository->findAll();
         $tableau=[];
+        $user=$this->getUser();
 
         // boucle foreach pour récuperer tout ce qu'il y a dans le tableau
         foreach ($listSorties as $sortie){
@@ -137,6 +133,8 @@ class SortieController extends AbstractController
             $tab['idPseudo']=$sortie->getOrganisateur()->getId();
             $tab['organisateur']=$sortie->getOrganisateur()->getPseudo() ;
             $tab['nb']=$sortie->getNbParticipants();
+            $tab['estOrganisateur']=$service->verifEstOrganisateur($sortie, $user);
+            $tab['estInscrit']=$service->verifEstInscrit($sortie,$user);
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;
