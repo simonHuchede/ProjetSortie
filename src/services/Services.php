@@ -14,16 +14,15 @@ public function verifEstOrganisateur(Sortie $sortie, $user){
     }
 
 }
-public function verifEstInscrit(Sortie $sortie, $user){
-
+public function verifEstInscrit( $sortie, $user){
+    $test = false;
     $participants =$sortie->getParticipants();
     foreach ($participants as $participant){
         if($participant->getId()==$user->getId()){
-            return true;
-        }else{
-            return false;
+            $test = true;
         }
     }
+    return $test;
 }
 
 
