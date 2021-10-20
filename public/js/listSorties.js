@@ -50,3 +50,5 @@ let url = '../../sortie/api/listSorties/';
                 afficherTab(tableau);
             }
         );
+
+
