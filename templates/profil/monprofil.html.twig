@@ -5,18 +5,22 @@
         <img src="{{ asset('/img/'~app.user.image) }}" alt="" width="300" style=" border-radius:10px">
     </div>
 
-<div id="form" class="offset-4 col-6" style="margin-top:-250px">
+<div id="form" class="offset-4 col-9" style="margin-top:-250px">
     <h2>Modifier mon profil</h2>
 
-    {{ form_start(modifform) }}
+    {{ form_start(modifform, { 'attr' : { 'id' : 'formModifierProfil' }}) }}
     <div class="col-4">
     {{ form_widget(modifform) }}
     </div>
-    <button type="submit" class="btn btn-dark">Enregistrer</button>
-    <a type="submit" class="btn btn-dark" href="{{ path('modifiermotdepasse',{ 'id': app.user.id } ) }}">Modifier Mot de Passe</a>
-    <a type="submit" class="btn btn-dark" href="{{ path('main_home') }}">Annuler</a>
+
+    <input type="hidden" value="1" id="infoProfil" name="infoProfil">
     {{ form_end(modifform) }}
+    <button onclick="modifyProfile()" class="btn btn-dark mt-3" name="Enregistrer">Enregistrer</button>
+    <a class="btn btn-dark mt-3" href="{{ path('main_home') }}">Annuler</a>
+    <a class="btn btn-dark mt-3" href="{{ path('modifiermotdepasse', {'id' : app.user.id }) }}">Modifier mot de passe</a>
     </div>
+
+    <script src="{{ asset('js/formButtonModifyProfile.js') }}"></script>
 
 {% endblock %}
 

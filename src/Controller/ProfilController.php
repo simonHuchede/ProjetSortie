@@ -31,11 +31,12 @@ class ProfilController extends AbstractController
     {
         $campus=$campusRepository->findAll();
         $user = $utilisateurRepository->findOneBy(['id' => $id]);
+        $info = $request->get('infoProfil');
         $modifform = $this->createForm(ModifierProfilFormType::class, $user);
         $modifform->handleRequest($request);
 
 
-        if ($modifform->isSubmitted() && $modifform->isValid()) {
+        if ($modifform->isSubmitted() && $modifform->isValid() && $info == '1') {
             $photoProfil = $modifform->get('image')->getData();
 
             if ($photoProfil){

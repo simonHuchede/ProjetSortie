@@ -4,16 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\ChangePasswordFormType;
-use App\Form\ModifierProfilFormType;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\User;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 
 class MdpController extends AbstractController
 {
@@ -22,9 +19,9 @@ class MdpController extends AbstractController
      */
     public function changeMdp ( Request $request,
                            $id,
-                           EntityManagerInterface $em,
+                            EntityManagerInterface $em,
                             Utilisateur $utilisateur,
-                                UserPasswordHasherInterface $userPasswordHasherInterface,
+                            UserPasswordHasherInterface $userPasswordHasherInterface,
                             UtilisateurRepository $utilisateurRepository
 
     )

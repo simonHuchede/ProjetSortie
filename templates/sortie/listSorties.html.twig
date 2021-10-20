@@ -43,9 +43,7 @@
                 </tr>
         </template>
 
-
-        <script src="{{ asset('js/listSorties.js') }}">
-
-        </script>
+    <script>let myUser = {{ app.user.id }}</script>
+    <script src="{{ asset('js/listSorties.js') }}"></script>
 {% endblock %}
 
