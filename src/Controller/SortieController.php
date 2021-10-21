@@ -6,9 +6,11 @@ use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Entity\Ville;
 use App\Form\LieuFormType;
 use App\Form\ModifierSortieFormType;
 use App\Form\SortieFormType;
+use App\Form\VilleFormType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
@@ -35,6 +37,8 @@ class SortieController extends AbstractController
                                  EntityManagerInterface $entityManager,
                                 UtilisateurRepository $utilisateurRepository,EtatRepository $repoEtat, LieuRepository $repoLieu){
         //$utilisateur=$utilisateurRepository->findOneBy(['id'=>$id]);
+        $ville = new Ville();
+        $formulaireVille = $this->createForm(VilleFormType::class,$ville);
         $utilisateur = $this->getUser();
         $sortie = new Sortie();
         $formulaireSortie= $this->createForm(SortieFormType::class,$sortie);
@@ -61,7 +65,7 @@ class SortieController extends AbstractController
             return $this -> redirectToRoute("sortie_listSorties");
         }
 
-            return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie','formulaireLieu'));
+            return $this->renderForm("sortie/creerSortie.html.twig", compact('formulaireSortie','formulaireLieu','formulaireVille'));
     }
     /**
      * @Route("/api/ville-lieu/",name="apiVilleLieu")
@@ -147,6 +151,7 @@ class SortieController extends AbstractController
             $tab['heureComparaison']= $dateDebut;
             $tab['estCloturee']=$service->verifEstCloture($sortie);
             $tab['estArchivee']=$service->verifEstArchivee($sortie);
+            $tab['estAdmin']= $service->verifEstAdministrateur($user);
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;
@@ -156,6 +161,17 @@ class SortieController extends AbstractController
         return $this->json($tableau);
     }
 
+    public function clotureInscription (SortieRepository $sortieRepository,
+                                 EntityManagerInterface $em,
+                                 EtatRepository $etatRepo){
+        $etat = $etatRepo->find(3);
+        $sorties=$sortieRepository->findAll();
+        foreach ($sorties as $sortie ){
+            if ((new \DateTime('now')) == $sortie->getDateLimiteInscription()) {
+                $sortie->setEtat($etat);
+            }
+        }
+    }
 
 
     /**
@@ -291,24 +307,21 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_creerSortie');
 
     }
-
     /**
-     * @Route("/publierSortie/{id}",name="publier_sortie")
+     * @Route("/ajouterVille/",name="ajouter_ville")
      */
-    public function publierSortie(Sortie $sortie,
-                                  EntityManagerInterface $entityManager,
-                                  EtatRepository $etatRepository,
-                                  UtilisateurRepository $utilisateurRepository){
-        $user=$this->getUser()->getUserIdentifier();
-        $organisateur=$sortie->getOrganisateur()->getUserIdentifier();
-        $etat=$etatRepository->find(2);
-        if($user == $organisateur){
-            $sortie->setEtat($etat);
-            $entityManager->flush();
-        }
-        return $this->redirectToRoute('sortie_listSorties');
-    }
+    public function ajouterVille(EntityManagerInterface $em,VilleRepository $villeRepository,Request $request){
 
+        $ville = new Ville();
+        $formulaireVille = $this->createForm(VilleFormType::class,$ville);
+        $formulaireVille->handleRequest($request);
+
+        $em->persist($ville);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_creerSortie',['formulaireVille' => $formulaireVille->createView()]);
+
+    }
 
 
 }

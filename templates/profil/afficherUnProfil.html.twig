@@ -18,9 +18,9 @@
             <div class="offset-4 col-4">
                 Campus: {{ utilisateur.campus.nom}}
             </div>
-
-            {#<img src="{{ asset('/img/'~utilisateur.image) }}" width="100px" height="300px" alt="photo de profil">#}
-
         </div>
+    </div>
+    <div>
+        <img src="{{ asset('/img/'~utilisateur.image) }}" style="border-radius:15px " width="400px" alt="photo de profil">
     </div>
 {% endblock %}

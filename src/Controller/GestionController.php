@@ -11,19 +11,20 @@ use App\Repository\UtilisateurRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/gestion",name="gestion_")
- * @IsGranted ("ROLE_ADMIN")
+ * @Route("/participant/gestion",name="gestion_")
+ * @IsGranted("ROLE_ADMIN")
  */
 class GestionController extends AbstractController
 {
     /**
-     *@Route("/gestionApp",name="gestion_app")
-     *@IsGranted("ROLE_ADMIN")
+     * @Route("/participant/gestionApp",name="gestion_app")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function gestionApp(UtilisateurRepository $utilisateurRepository,
                                SortieRepository $sortieRepository){
@@ -37,8 +38,9 @@ class GestionController extends AbstractController
         return $this->renderForm("/gestion/gestionApp.html.twig",compact("formulaireVille","utilisateurs","registrationForm","archives"));
     }
 /**
- *@Route("/ajouterVille",name="ajouter_ville")
- *@IsGranted("ROLE_ADMIN")
+ * @Route("/ajouterVille",name="ajouter_ville")
+ * @IsGranted("ROLE_ADMIN")
+ *
  */
 public function ajouterVille(Request $request, EntityManagerInterface $em){
 
@@ -71,6 +73,7 @@ public function supprimerUtilisateur(Utilisateur $u,
 }
 /**
  * @Route("/afficherArchives",name="afficher_archives")
+ * @IsGranted("ROLE_ADMIN")
  */
 public function afficherArchives(SortieRepository $sortieRepository){
     $archives=$sortieRepository->findByEtat(7);
