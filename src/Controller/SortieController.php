@@ -219,7 +219,6 @@ class SortieController extends AbstractController
                 } elseif ($infoSortie == '2'){
                     $etat = $repoEtat->find(2);
                     $sortie->setEtat($etat);
-                    $em->persist($sortie);
                     $em->flush();
                     $this->addFlash("success", "La sortie a été publiée.");
                 }
@@ -258,6 +257,7 @@ class SortieController extends AbstractController
      */
     public function afficherSortie(Sortie $sortie){
 
+
         return $this->render("sortie/afficherSortie.html.twig",
             compact('sortie'));
     }
@@ -272,6 +272,10 @@ class SortieController extends AbstractController
             $tab['pseudo']=$participant->getPseudo();
             $tab['prenom']=$participant->getPrenom();
             $tab['nom']=$participant->getNom();
+            $tab['telephone']=$participant->getTelephone();
+            $tab['mail']=$participant->getEmail();
+            $tab['campus']=$participant->getCampus()->getNom();
+            $tab['photo']=$participant->getImage();
             $tableau[]=$tab;
         }
         return $this->json($tableau);
@@ -291,24 +295,4 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_creerSortie');
 
     }
-
-    /**
-     * @Route("/publierSortie/{id}",name="publier_sortie")
-     */
-    public function publierSortie(Sortie $sortie,
-                                  EntityManagerInterface $entityManager,
-                                  EtatRepository $etatRepository,
-                                  UtilisateurRepository $utilisateurRepository){
-        $user=$this->getUser()->getUserIdentifier();
-        $organisateur=$sortie->getOrganisateur()->getUserIdentifier();
-        $etat=$etatRepository->find(2);
-        if($user == $organisateur){
-            $sortie->setEtat($etat);
-            $entityManager->flush();
-        }
-        return $this->redirectToRoute('sortie_listSorties');
-    }
-
-
-
 }

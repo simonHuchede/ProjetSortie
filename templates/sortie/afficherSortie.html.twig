@@ -81,13 +81,48 @@
         <tr>
             <td>0</td>
             <td>
-                <a href="" class="btnAfficherPofil"></a>
+                <button onclick="afficherProfil(this)" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#profilModal"></button>
             </td>
         </tr>
     </template>
+    <div class="modal" tabindex="-1" id="profilModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Profil participant</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    <div class="offset-3 col-5">
+                        <span id="photoProfil"></span>
+                    </div>
+                    <div class="offset-3 col-5">
+                        Prénom : <span id="prenom"></span>
+                    </div>
+
+                    <div class="offset-3 col-5">
+                        Nom : <span id="nom"></span>
+                    </div>
+                    <div class="offset-3 col-5">
+                        Téléphone : <span id="telephone"></span>
+                    </div>
+                    <div class="offset-3 col-5">
+                        Email : <span id="email"></span>
+                    </div>
+                    <div class="offset-3 col-5">
+                        Campus : <span id="campus"></span>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+    </div>
     <input href="#" id="idSortie" hidden value="{{ sortie.id }}">
 
-    <script src="{{ asset('js/listParticipants.js') }}">
+    <script src="{{ asset('js/listParticipants.js') }}"></script>
+    <script src="{{ asset('js/afficherProfil.js') }}"></script>
 
-    </script>
+
 {% endblock %}
