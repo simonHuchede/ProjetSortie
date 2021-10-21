@@ -77,4 +77,13 @@ public function afficherArchives(SortieRepository $sortieRepository){
     return $this->render("gestion/gestionApp.html.twig",
     compact("archives"));
 }
+/**
+ * @Route("/rendreInactif/{id}",name="rendre_inactif")
+ */
+public function rendreInactif(Utilisateur $utilisateur,
+                              EntityManagerInterface $em){
+    $utilisateur->setActif(false);
+    $em->flush();
+    return $this->redirectToRoute("gestion_gestion_app");
+}
 }

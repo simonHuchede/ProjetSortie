@@ -8,8 +8,8 @@
                 </button>
             </div>
             <div class="offset-4 col-4">
-                <button type="button" class="btn btn-primary col-12 my-5" data-bs-toggle="modal" data-bs-target="#supprimerModal">
-                    Supprimer Utilisateur
+                <button type="button" class="btn btn-primary col-12 my-5" data-bs-toggle="modal" data-bs-target="#gererModal">
+                    Gerer Utilisateur
                 </button>
             </div>
             <div class="offset-4 col-4">
@@ -43,11 +43,11 @@
             </div>
         </div>
     </div>
-    <div class="modal" tabindex="-1" id="supprimerModal">
+    <div class="modal" tabindex="-1" id="gererModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Supprimer Utilisateur</h5>
+                    <h5 class="modal-title">Gerer Utilisateur</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -69,7 +69,11 @@
                                 {#  <button type="button" class="btn btn-primary" onclick=""><i class="bi bi-trash-fill"></i></button>#}
                                 <td><a class="btn btn-danger" href="{{ path('gestion_supprimer_utilisateur', {'id': utilisateur.id}) }}">
                                         <i class="fa fa-trash"></i>
-                                    </a></td>
+                                    </a>
+                                    <a class="btn btn-danger" href="{{ path('gestion_rendre_inactif', {'id': utilisateur.id}) }}">
+                                        <i class="fa-solid fa-ban"></i>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
