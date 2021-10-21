@@ -131,6 +131,7 @@ class SortieController extends AbstractController
         $service->estPassee();
         $service->estEnCours();
         $listSorties=$sortieRepository->findAll();
+
         // boucle foreach pour récuperer tout ce qu'il y a dans le tableau
         foreach ($listSorties as $sortie){
 
