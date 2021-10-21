@@ -106,7 +106,7 @@ public function verifEstAdministrateur($user)
         foreach ($sorties as $sortie ){
             $duree=$sortie->getDuree();
             $dateJ=new \DateTime('now');
-            if ($sortie->getDateHeureDebut() <= $dateJ->sub(new \DateInterval('PT' . $duree . 'M'))){
+            if ($sortie->getDateHeureDebut() <= $dateJ->sub(new \DateInterval('PT' . $duree . 'M'))&& $sortie->getDateHeureDebut()> $dateJ->sub(new \DateInterval('P30D'))){
                 $sortie->setEtat($etat);
 
 
