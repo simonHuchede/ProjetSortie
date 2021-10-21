@@ -67,12 +67,21 @@
                                 <td>{{ utilisateur.nom }}</td>
                                 <td>{{ utilisateur.prenom }}</td>
                                 {#  <button type="button" class="btn btn-primary" onclick=""><i class="bi bi-trash-fill"></i></button>#}
-                                <td><a class="btn btn-danger" href="{{ path('gestion_supprimer_utilisateur', {'id': utilisateur.id}) }}">
+
+                                <td>
+                                    <div class="row">
+                                    <a class=" offset-2 col-6 btn btn-dark" href="{{ path('gestion_supprimer_utilisateur', {'id': utilisateur.id}) }}">
                                         <i class="fa fa-trash"></i>
                                     </a>
-                                    <a class="btn btn-danger" href="{{ path('gestion_rendre_inactif', {'id': utilisateur.id}) }}">
+                                    </div>
+                                    <div class="row">
+                                    <a class=" col-6 btn btn-danger" href="{{ path('gestion_rendre_inactif', {'id': utilisateur.id}) }}">
                                         <i class="fa-solid fa-ban"></i>
                                     </a>
+                                    <a class="col-6 btn btn-success" href="{{ path('gestion_rendre_actif', {'id': utilisateur.id}) }}">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </a>
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}

@@ -72,10 +72,9 @@ public function verifEstInscrit( $sortie, $user){
         $sorties=$this->sortieRepository->findAll();
 
         foreach ($sorties as $sortie ){
-            if ((new \DateTime('now')) >= $sortie->getDateHeureDebut()->add(new \DateInterval('P30D'))){
+                $dateJ=new \DateTime('now');
+            if ($sortie->getDateHeureDebut()<$dateJ->sub(new \DateInterval('P30D'))){
                 $sortie->setEtat($etat);
-
-
             }
         }
 
@@ -96,7 +95,8 @@ public function verifEstInscrit( $sortie, $user){
 
         foreach ($sorties as $sortie ){
             $duree=$sortie->getDuree();
-            if ((new \DateTime('now')) >= $sortie->getDateHeureDebut()->add(new \DateInterval('PT' . $duree . 'M'))){
+            $dateJ=new \DateTime('now');
+            if ($sortie->getDateHeureDebut() <= $dateJ->sub(new \DateInterval('PT' . $duree . 'M'))){
                 $sortie->setEtat($etat);
 
 
@@ -110,7 +110,8 @@ public function verifEstInscrit( $sortie, $user){
 
         foreach ($sorties as $sortie ){
             $duree=$sortie->getDuree();
-            if ((new \DateTime('now')) < $sortie->getDateHeureDebut()->add(new \DateInterval('PT' . $duree . 'M')) && (new \DateTime('now')) >= $sortie->getDateHeureDebut()){
+            $dateJ=new \DateTime('now');
+            if ($sortie->getDateHeureDebut() > $dateJ->sub(new \DateInterval('PT' . $duree . 'M')) && (new \DateTime('now')) >= $sortie->getDateHeureDebut()){
                 $sortie->setEtat($etat);
 
 

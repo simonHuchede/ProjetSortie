@@ -86,4 +86,13 @@ public function rendreInactif(Utilisateur $utilisateur,
     $em->flush();
     return $this->redirectToRoute("gestion_gestion_app");
 }
+/**
+ * @Route("/rendreActif/{id}",name="rendre_actif")
+ */
+public function rendreActif(Utilisateur $utilisateur,
+                            EntityManagerInterface $em){
+    $utilisateur->setActif(true);
+    $em->flush();
+    return $this->redirectToRoute("gestion_gestion_app");
+}
 }
