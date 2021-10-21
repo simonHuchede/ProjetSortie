@@ -259,18 +259,19 @@ class SortieController extends AbstractController
     /**
      * @Route("/annulerSortie/{id}", name="annulerSortie")
      */
-    public function annulerSortie(Sortie $sortie, EntityManagerInterface $em, EtatRepository $etatRepo, Utilisateur $utilisateur){
+    public function annulerSortie(Sortie $sortie, EntityManagerInterface $em, EtatRepository $etatRepo){
         $userId = $this->getUser()->getId();
         $user2Id = $sortie->getOrganisateur()->getId();
+        $user3Id = $this->getUser()->getAdministrateur();
 
-        if ($userId == $user2Id) {
+        if (($userId == $user2Id) OR $user3Id== true) {
             $etat = $etatRepo->find(6);
             $sortie->setEtat($etat);
-            $em->persist($sortie);
+           // $em->persist($sortie);
             $em->flush();
             $this->addFlash("succes", "La sortie a été annulée.");
         }
-        return $this->render("sortie/listSorties.html.twig");
+        return $this->redirectToRoute("sortie_listSorties");
     }
     /**
      * @Route("/afficherSortie/{id}", name="afficherSortie");
