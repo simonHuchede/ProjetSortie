@@ -48,7 +48,8 @@ class SortieController extends AbstractController
         $dateDebut = $sortie->getDateHeureDebut();
         $newLieu = new Lieu();
         $formulaireLieu = $this->createForm(LieuFormType::class,$newLieu);
-        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() &&  $dateCloture < $dateDebut){
+        $dateDuJour = new \DateTime('now');
+        if ($formulaireSortie->isSubmitted() && $formulaireSortie->isValid() &&  $dateCloture < $dateDebut && $dateDuJour < $dateCloture){
             if($info =='1'){
                 $etat = $repoEtat->find(1);
             }elseif ($info == '2'){
