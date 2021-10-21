@@ -128,7 +128,21 @@ public function verifEstAdministrateur($user)
             }
         }
     }
-public function verifestInactif(){
+    public function verifEstPassee($sortie){
+        $test = false;
+        $etat = $sortie->getEtat();
+        if ($etat == $this->etatRepo->find(5)){
+            $test = true;
+        }
+        return $test;
+    }
 
-}
+    public function verifEstAnnulee($sortie){
+        $test = false;
+        $etat = $sortie->getEtat();
+        if ($etat == $this->etatRepo->find(6)){
+            $test = true;
+        }
+        return $test;
+    }
 }

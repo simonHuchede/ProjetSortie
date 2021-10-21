@@ -56,10 +56,20 @@ function afficherTab(tableau){
             tabTd[7].querySelector("#btnAfficher").setAttribute("hidden",'');
 
         }
+        if(sortie.estArchivee == true){
+            tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
+        }
             tabTd[7].querySelector("#btnSedesister").setAttribute("href",urlSeDesister2);
 
         if(sortie.estInscrit == false){
             tabTd[7].querySelector("#btnSedesister").setAttribute("hidden",'');
+        }
+
+        if(sortie.estPassee == true){
+            tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
+        }
+        if(sortie.estAnnulee == true){
+            tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
         }
 
 
