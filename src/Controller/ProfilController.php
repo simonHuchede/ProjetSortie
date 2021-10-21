@@ -76,11 +76,11 @@ class ProfilController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/afficherUnProfil/{id}",name="afficherUnProfil")
-     */
-    public function afficherUnProfil(Utilisateur $utilisateur){
+        /**
+        * @Route("/afficherUnProfil/{id}",name="afficherUnProfil")
+        */
+        public function afficherUnProfil(Utilisateur $utilisateur){
 
-    return $this->render("profil/afficherUnProfil.html.twig",compact('utilisateur'));
+        return $this->render("sortie/afficherSortie.html.twig",compact('utilisateur'));
     }
 }

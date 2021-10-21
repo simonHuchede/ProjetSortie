@@ -66,6 +66,16 @@ public function verifEstInscrit( $sortie, $user){
         }
         return $test;
     }
+public function verifEstAdministrateur($user)
+{
+    $test=false;
+    foreach ($user->getRoles() as $role)
+   if($role =="ROLE_ADMIN"){
+       $test=true;
+   }
+    return $test;
+
+}
 
     public function archiver(){
         $etat = $this->etatRepo->find(7);
