@@ -43,11 +43,11 @@ function afficherTab(tableau){
             tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
 
         }
-        if(myUser == sortie.idPseudo){
+
             tabTd[7].querySelector("#btnModifierSortie").setAttribute("href",urlModifierSortie2);
-        }
-        if(sortie.estOrganisateur == false){
-            tabTd[7].querySelector("#btnModifierSortie").setAttribute("hidden",'');
+
+        if((sortie.estOrganisateur == true)||(sortie.estAdmin == true)){
+            tabTd[7].querySelector("#btnModifierSortie").setAttribute('class' ,'btn btn-light');
 
         }
 
@@ -211,7 +211,7 @@ function filtrerPremiereDate(tab, dateDebut) {
     return tab2;
 }
 
-//------------------------------------
+//--------------------------------------------------------------------------
 
 function filtrerSecondeDate(tab, dateFin) {
     let tab2 = [];

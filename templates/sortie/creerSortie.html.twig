@@ -8,12 +8,19 @@
         {{ form_start(formulaireSortie, { 'attr': {'id' : 'formCreerSortie'}}) }}
 
             {{ form_widget(formulaireSortie)}}
-
+            <div class="row">
             <label class="form-label" for="ville">Ville: </label>
+                <div class="col-8">
             <select class="form-control " name="ville" id="ville" onchange="changeVille()">
 
-
             </select>
+                </div>
+            <div class=" col-4">
+                <button type="button" class="btn btn-primary  col-6 " data-bs-toggle="modal" data-bs-target="#villeModal">
+                    <i class="fa fa-plus"></i>
+                </button>
+                </div>
+            </div>
             <div class="row">
                 <label class="form-label" for="lieu">Lieu: </label>
                 <div class="col-8">
@@ -51,8 +58,30 @@
                     {{ form_end(formulaireLieu) }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="lieuSubmit()">Enregister</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" onclick="lieuSubmit()">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" tabindex="-1" id="villeModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouvelle Ville</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formulaireVille,{'action': path('sortie_ajouter_ville'), 'attr': {'id':'formVille'}}) }}
+                    {{ form_widget(formulaireVille) }}
+
+                    {{ form_end(formulaireVille) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" onclick="villeSubmit()">Enregistrer</button>
                 </div>
             </div>
         </div>
@@ -60,6 +89,9 @@
     <script>
         function lieuSubmit(){
             document.querySelector('#formLieu').submit();
+        }
+        function villeSubmit(){
+            document.querySelector('#formVille').submit();
         }
     </script>
     <script src="{{ asset('js/formButton.js') }}"></script>

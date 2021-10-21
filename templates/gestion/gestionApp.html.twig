@@ -1,6 +1,8 @@
 {% extends "base.html.twig" %}
 
 {% block contenu %}
+    <h3 style="text-align: center; margin-top: 20px">Gestionnaire De L'application</h3>
+    <div>
     <div class="container">
             <div class=" offset-4 col-4">
                 <button type="button" class="btn btn-primary col-12 my-5" data-bs-toggle="modal" data-bs-target="#villeModal">
@@ -145,6 +147,7 @@
             </div>
         </div>
     </div>
+
     <script>
         function villeSubmit(){
             document.querySelector('#formVille').submit();
