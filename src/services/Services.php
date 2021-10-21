@@ -5,6 +5,7 @@ namespace App\services;
 use App\Entity\Sortie;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Services
@@ -12,9 +13,11 @@ class Services
     protected $sortieRepository;
     protected $em;
     protected $etatRepo;
+    protected $utilisateurRepo;
     public function __construct(SortieRepository $sortieRepository,
                                 EntityManagerInterface $em,
-                                EtatRepository $etatRepo)
+                                EtatRepository $etatRepo,
+                                UtilisateurRepository $utilisateurRepo)
     {
         $this->sortieRepository=$sortieRepository;
         $this->em=$em;
@@ -124,5 +127,7 @@ public function verifEstAdministrateur($user)
             }
         }
     }
+public function verifestInactif(){
 
+}
 }
