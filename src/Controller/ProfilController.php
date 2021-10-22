@@ -75,12 +75,4 @@ class ProfilController extends AbstractController
             'campus'=> $campus,
         ]);
     }
-
-        /**
-        * @Route("/afficherUnProfil/{id}",name="afficherUnProfil")
-        */
-        public function afficherUnProfil(Utilisateur $utilisateur){
-
-        return $this->render("sortie/afficherSortie.html.twig",compact('utilisateur'));
-    }
 }
