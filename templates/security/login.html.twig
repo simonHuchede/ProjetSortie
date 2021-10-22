@@ -3,47 +3,43 @@
 {% block title %}Log in!{% endblock %}
 
 {% block contenu %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+
+        <div class="offset-4 col-3">
+            <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
+            <label for="inputEmail">Email</label>
+            <input type="text" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+            <label for="inputPassword">Mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="row">
+                <div class="checkbox mb-3 col-6 my-3">
+                    <label>
+                        Se Souvenir de moi <input type="checkbox" name="_remember_me">
+                    </label>
+                </div>
+
+                <button class="btn btn-lg btn-primary my-3 col-4 offset-1 " type="submit">
+                    Connexion
+                </button>
+            </div>
+
+            <div>
+                <a  href="{{ path('app_forgot_password_request') }}">Mot De Passe Oublié</a>
+            </div>
+
         </div>
-    {% endif %}
-
-
-    <div class="offset-4 col-3">
-    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
-    <label for="inputEmail">Email</label>
-    <input type="text" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-    <div class="row">
-        <div class="checkbox mb-3 col-6 my-3">
-            <label>
-                Se Souvenir de moi <input type="checkbox" name="_remember_me">
-            </label>
-        </div>
-
-
-        <button class="btn btn-lg btn-primary my-3 col-4 offset-1 " type="submit">
-            Connexion
-        </button>
-    </div>
-
-        <div>
-            <a  href="{{ path('app_forgot_password_request') }}">Mot De Passe Oublié</a>
-        </div>
-
-
-    </div>
 </form>
-
 {% endblock %}

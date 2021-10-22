@@ -25,6 +25,7 @@
             </button>
         </div>
     </div>
+
     <div class="modal" tabindex="-1" id="villeModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -45,6 +46,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal" tabindex="-1" id="gererModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -68,7 +70,6 @@
                                 <td>{{ utilisateur.pseudo }}</td>
                                 <td>{{ utilisateur.nom }}</td>
                                 <td>{{ utilisateur.prenom }}</td>
-                                {#  <button type="button" class="btn btn-primary" onclick=""><i class="bi bi-trash-fill"></i></button>#}
 
                                 <td>
                                     <div class="row">
@@ -129,8 +130,7 @@
                         <thead>
                         <tr>
                             <th class="col-2">Nom de la sortie</th>
-                           {#<th class="col-4">Date de la sortie</th> #}
-                           {#<th class="col-4">Clôture</th>#}
+
                             <th class="col-4">Organisateur</th>
                         </tr>
                         </thead>
@@ -138,8 +138,6 @@
                         {% for archive in archives %}
                             <tr>
                                 <td>{{ archive.nom }}</td>
-                                {# <td>{{ archive.dateHeureDebut|date('Y-m-d H:i') }}</td> #}
-                                {# <td>{{ archive.dateLimiteInscription }}</td> #}
                                 <td>{{ archive.organisateur.pseudo }}</td>
                                 <td><a class="btn btn-dark" href="{{ path('sortie_afficherSortie', {'id': archive.id}) }}">
                                         <i class="fa-solid fa-arrow-right"></i>
@@ -151,7 +149,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
                 </div>
             </div>
         </div>
