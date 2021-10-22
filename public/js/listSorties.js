@@ -1,9 +1,7 @@
-
 let tableau = [];
 
 function afficherTab(tableau){
-   // console.log(myUser);
-//selecteur sur le template et sur le tableau
+    //Selecteur sur le template et sur le tableau
     let tbody=document.querySelector("#myTbody");
     let template=document.querySelector("#ligne");
     let urlSinscrire="../../sortie/sinscrire/";
@@ -12,78 +10,98 @@ function afficherTab(tableau){
     let urlAfficher="../../sortie/afficherSortie/";
     tbody.innerHTML='';
     for (let sortie of tableau){
-        //j'ajoute l'id de ma sortie à l'url de sinscrire
+        //J'ajoute l'id de ma sortie à l'url de sinscrire
         let urlsinscrire2=urlSinscrire+sortie.id;
         let urlSeDesister2=urlSeDesister+sortie.id;
         let urlModifierSortie2=urlModifierSortie+sortie.id;
         let urlAfficher2=urlAfficher+sortie.id;
-        //je clone le contenu du template dans une variable
+
+        //Je clone le contenu du template dans une variable
         let clone=template.content.cloneNode(true);
-        //je mets un selecteur à l'interieur de la partie html clonée
+
+        //Je mets un selecteur à l'interieur de la partie html clonée
         let tabTd=clone.querySelectorAll("td");// j'ai un tableau
-        //if (sortie.dateHeureDebut < sortie.dateHeureDebut.getMonth()-1){
+
+
         tabTd[0].innerHTML=sortie.nom ;
         tabTd[1].innerHTML=new Date(sortie.dateHeureDebut).toLocaleString('fr-FR');
         tabTd[2].innerHTML=new Date(sortie.dateLimiteInscription).toLocaleDateString('fr-FR');
         tabTd[3].innerHTML=sortie.nb+"/"+sortie.nbInscriptionMax ;
         tabTd[4].innerHTML=sortie.etat;
-
-        if (sortie.estInscrit== false){
-            tabTd[5].querySelector('i').setAttribute('hidden','');
-
-        }
         tabTd[6].innerHTML= sortie.organisateur;
         tabTd[7].querySelector("#btnSinscrire").setAttribute("href",urlsinscrire2);
+        tabTd[7].querySelector("#btnModifierSortie").setAttribute("href",urlModifierSortie2);
+        tabTd[7].querySelector("#btnAfficher").setAttribute("href",urlAfficher2);
+        tabTd[7].querySelector("#btnSedesister").setAttribute("href",urlSeDesister2);
 
+
+
+        //----------------------------------------------------------------------------------------------------------------
+        //Si la sortie est Cloturée alors le bouton s'inscrire est caché à l'utilisateur
         if (sortie.estCloturee == true){
             tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
         }
 
+        //----------------------------------------------------------------------------------------------------------------
+        //Si l'utilisateur est déjà inscrit alors nous lui cachons le bouton s'inscrire
         if(sortie.estInscrit == true){
             tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
-
         }
 
-            tabTd[7].querySelector("#btnModifierSortie").setAttribute("href",urlModifierSortie2);
-
+        //----------------------------------------------------------------------------------------------------------------
+        //Si l'utilisateur est l'organistauer ou est administrateur alors il peut modifier la sortie via le bouton modifier
         if((sortie.estOrganisateur == true)||(sortie.estAdmin == true)){
             tabTd[7].querySelector("#btnModifierSortie").setAttribute('class' ,'btn btn-light');
-
         }
 
-            tabTd[7].querySelector("#btnAfficher").setAttribute("href",urlAfficher2);
+        //----------------------------------------------------------------------------------------------------------------
+        //Si la sortie est archivée, alors, les détails de la sortie de sont plus consultables par les utilisateurs
         if(sortie.estArchivee == true){
             tabTd[7].querySelector("#btnAfficher").setAttribute("hidden",'');
-
         }
+
+        //----------------------------------------------------------------------------------------------------------------
+        //Si la sortie est archivée alors le bouton s'inscrire est caché
         if(sortie.estArchivee == true){
             tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
         }
-            tabTd[7].querySelector("#btnSedesister").setAttribute("href",urlSeDesister2);
 
+        //----------------------------------------------------------------------------------------------------------------
+        //Si l'utilisateur n'est pas inscrit alors nous cachons le bouton Se Désister
         if(sortie.estInscrit == false){
             tabTd[7].querySelector("#btnSedesister").setAttribute("hidden",'');
         }
 
+        //----------------------------------------------------------------------------------------------------------------
+        //Si la sortie est passée alors nous cachons le bouton s'inscire à l'utilisateur
         if(sortie.estPassee == true){
             tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
         }
+
+        //----------------------------------------------------------------------------------------------------------------
+        //Si la sortie est annulée alors nous cachons le boutons s'inscrire à l'utilisateur
         if(sortie.estAnnulee == true){
             tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
         }
 
+        //----------------------------------------------------------------------------------------------------------------
+        //Si la sortie est à l'état créé alors nous cachons le bouton s'inscrire à l'utilisateur
         if(sortie.estCree == true){
             tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
         }
 
+        //----------------------------------------------------------------------------------------------------------------
+        //Si l'utilisateur n'est pas inscrit alors nous laissons le champ d'indication Inscrit vide
+        if (sortie.estInscrit == false){
+            tabTd[5].querySelector('i').setAttribute('hidden','');
+        }
 
-        //tabTd['participants']=sortie.participants;
+        //----------------------------------------------------------------------------------------------------------------
         tbody.appendChild(clone);
-        //}
     }
-
 }
-let url = '../../sortie/api/listSorties/';
+
+    let url = '../../sortie/api/listSorties/';
     fetch(url)
         .then(response=>response.json())
         .then(tab=>
@@ -97,7 +115,7 @@ let url = '../../sortie/api/listSorties/';
             }
         );
 
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------
     function filtrer(){
         let tableau2 = tableau;
         tableau2 = filtrerNom(tableau2);
@@ -132,6 +150,7 @@ let url = '../../sortie/api/listSorties/';
 
         afficherTab(tableau2);
     }
+
     //-----------------------------------------------------------------------
     function filtrerNom(tab){
         let tableau2 = [];
@@ -147,6 +166,7 @@ let url = '../../sortie/api/listSorties/';
         }
        return tableau2;
     }
+
     //-----------------------------------------------------------------------
     function filtrerCampus(tab){
         let tableau2 = [];
@@ -166,6 +186,7 @@ let url = '../../sortie/api/listSorties/';
         }
         return tableau2;
     }
+
     //-----------------------------------------------------------------------
     function filtrerOrganisteur(tab){
         let tableau2 = [];
@@ -176,6 +197,7 @@ let url = '../../sortie/api/listSorties/';
         }
         return tableau2;
     }
+
     //-----------------------------------------------------------------------
     function filtrerInscrit(tab){
         let tableau2 = [];
@@ -186,6 +208,7 @@ let url = '../../sortie/api/listSorties/';
         }
         return tableau2;
     }
+
     //-----------------------------------------------------------------------
     function filtrerNonInscrit(tab){
         let tableau2 = [];
@@ -196,6 +219,7 @@ let url = '../../sortie/api/listSorties/';
         }
         return tableau2;
     }
+
     //-----------------------------------------------------------------------
     function filtrerDatePassee(tab){
         let tableau2 = [];
@@ -207,8 +231,9 @@ let url = '../../sortie/api/listSorties/';
         }
         return tableau2;
     }
+
     //-----------------------------------------------------------------------
-function filtrerPremiereDate(tab, dateDebut) {
+    function filtrerPremiereDate(tab, dateDebut) {
     let tab2 = [];
 
     if (dateDebut.length >0) {
@@ -225,9 +250,8 @@ function filtrerPremiereDate(tab, dateDebut) {
     return tab2;
 }
 
-//--------------------------------------------------------------------------
-
-function filtrerSecondeDate(tab, dateFin) {
+    //----------------------------------------------------------------------------------------------------------------
+    function filtrerSecondeDate(tab, dateFin) {
     let tab2 = [];
     if (dateFin.length >0) {
         dateFin = new Date(dateFin);
