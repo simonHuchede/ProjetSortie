@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} {{ parent() }} | Sorties {% endblock %}
+
 {% block contenu %}
+    <div>
+            <div class="col-3 my-2">
+                <input type="text" id="nomSortie" class="form-control" placeholder="Rechercher">
+            </div>
+    </div>
     <div class="container">
         <h3>Filtrer les sorties</h3>
         <div class="row">

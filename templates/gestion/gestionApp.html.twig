@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
 
+{% block title %} {{ parent() }} | Gestionnnaire {% endblock %}
+
 {% block contenu %}
     <h3 style="text-align: center; margin-top: 20px">Gestionnaire De L'application</h3>
     <div>
@@ -40,7 +42,7 @@
                     {{ form_end(formulaireVille) }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                     <button type="button" class="btn btn-primary" onclick="villeSubmit()">Enregister</button>
                 </div>
             </div>

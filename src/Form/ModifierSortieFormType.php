@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,9 +15,13 @@ class ModifierSortieFormType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('dateHeureDebut')
+            ->add('dateHeureDebut', DateTimeType::class, [
+                'widget' => 'single_text'
+            ])
             ->add('duree')
-            ->add('dateLimiteInscription')
+            ->add('dateLimiteInscription', DateType::class, [
+                'widget' => 'single_text'
+            ])
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
 
