@@ -14,28 +14,29 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MdpController extends AbstractController
 {
+    //dans cette methode je modifie mon mot de passe
     /**
      * @Route("/changeMdp/{id}", name="modifiermotdepasse")
      */
     public function changeMdp ( Request $request,
                            $id,
                             EntityManagerInterface $em,
-                            Utilisateur $utilisateur,
+
                             UserPasswordHasherInterface $userPasswordHasherInterface,
                             UtilisateurRepository $utilisateurRepository
 
     )
     {
-        $utilisateur=$this->getUser();
+        //je recupère l'utilisateur en session
+
         $user = $utilisateurRepository->findOneBy(['id' => $id]);
-        $mdpform = $this->createForm(ChangePasswordFormType::class, $utilisateur);
+        $mdpform = $this->createForm(ChangePasswordFormType::class, $user);
         $mdpform ->handleRequest($request);
 
         if ($mdpform->isSubmitted() && $mdpform->isValid()){
 
-            $newpwd = $mdpform->get('plainPassword')->getData();
 
-            $utilisateur->setPassword(
+            $user->setPassword(
 
             $userPasswordHasherInterface->hashPassword(
                 $user,
@@ -48,7 +49,7 @@ class MdpController extends AbstractController
         $this->addFlash("success", "Votre Mot De passe a été modifié.");
         return $this->redirectToRoute("profil_modifierprofil",['id' => $user->getId()]);
 
-    }
+        }
         return $this->render('profil/monprofil.html.twig',[
         'mdpform' => $mdpform->createView()
         ]);

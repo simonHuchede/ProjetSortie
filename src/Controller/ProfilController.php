@@ -21,6 +21,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
  */
 class ProfilController extends AbstractController
 {
+    //je modifie mon profile
     /**
      * @Route("/modifierprofil/{id}", name="modifierprofil")
      */
@@ -34,9 +35,10 @@ class ProfilController extends AbstractController
                                     UserPasswordHasherInterface $userPasswordHasherInterface
     )
     {
-        $utilisateur=$this->getUser();
+        //je recupere le user en session
+
         $user = $utilisateurRepository->findOneBy(['id' => $id]);
-        $mdpform = $this->createForm(ChangePasswordFormType::class, $utilisateur);
+        $mdpform = $this->createForm(ChangePasswordFormType::class, $user);
         $campus=$campusRepository->findAll();
         $info = $request->get('infoProfil');
         $modifform = $this->createForm(ModifierProfilFormType::class, $user);
@@ -45,7 +47,7 @@ class ProfilController extends AbstractController
 
         if ($modifform->isSubmitted() && $modifform->isValid() && $info == '1') {
             $photoProfil = $modifform->get('image')->getData();
-
+                //ajout d'une photo de profil
             if ($photoProfil){
                 $originalFileName = pathinfo($photoProfil->getClientOriginalName(), PATHINFO_FILENAME);
                 $saveFileName = $slugger->slug($originalFileName);
@@ -75,7 +77,7 @@ class ProfilController extends AbstractController
             'campus'=> $campus,
         ]);
     }
-
+//on affiche le profile d'un participant à une sortie
         /**
         * @Route("/afficherUnProfil/{id}",name="afficherUnProfil")
         */

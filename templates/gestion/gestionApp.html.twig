@@ -72,16 +72,19 @@
 
                                 <td>
                                     <div class="row">
-                                    <a class=" offset-2 col-6 btn btn-dark" href="{{ path('gestion_supprimer_utilisateur', {'id': utilisateur.id}) }}">
+                                    <a class="  col-6 btn btn-dark" href="{{ path('gestion_supprimer_utilisateur', {'id': utilisateur.id}) }}">
                                         <i class="fa fa-trash"></i>
                                     </a>
+                                        <a class="  col-6 btn btn-dark" href="{{ path('gestion_rendre_admin', {'id': utilisateur.id}) }}">
+                                            <i class="fa-solid fa-rectangle-ad"></i>
+                                        </a>
                                     </div>
                                     <div class="row">
                                     <a class=" col-6 btn btn-danger" href="{{ path('gestion_rendre_inactif', {'id': utilisateur.id}) }}">
-                                        <i class="fa-solid fa-ban"></i>
+                                        <i class="fa-solid fa-lock"></i>
                                     </a>
                                     <a class="col-6 btn btn-success" href="{{ path('gestion_rendre_actif', {'id': utilisateur.id}) }}">
-                                        <i class="fa-solid fa-plus"></i>
+                                        <i class="fa-solid fa-lock-open"></i>
                                     </a>
                                     </div>
                                 </td>
@@ -129,8 +132,7 @@
                         <thead>
                         <tr>
                             <th class="col-2">Nom de la sortie</th>
-                           {#<th class="col-4">Date de la sortie</th> #}
-                           {#<th class="col-4">Clôture</th>#}
+
                             <th class="col-4">Organisateur</th>
                         </tr>
                         </thead>
@@ -138,8 +140,7 @@
                         {% for archive in archives %}
                             <tr>
                                 <td>{{ archive.nom }}</td>
-                                {# <td>{{ archive.dateHeureDebut|date('Y-m-d H:i') }}</td> #}
-                                {# <td>{{ archive.dateLimiteInscription }}</td> #}
+
                                 <td>{{ archive.organisateur.pseudo }}</td>
                                 <td><a class="btn btn-dark" href="{{ path('sortie_afficherSortie', {'id': archive.id}) }}">
                                         <i class="fa-solid fa-arrow-right"></i>

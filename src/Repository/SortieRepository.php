@@ -18,6 +18,7 @@ class SortieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Sortie::class);
     }
+    //je vais chercher en base les sorties selon un etat
     public function findByEtat($value)
     {
         return $this->createQueryBuilder('sortie')

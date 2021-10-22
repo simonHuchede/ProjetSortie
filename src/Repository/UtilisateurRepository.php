@@ -35,15 +35,18 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
         $this->_em->persist($user);
         $this->_em->flush();
     }
+    //je fais une nouvelle requette qui va chercher l'utilisateur selon son pseudo ou email qui a pour attribut actif à true.
     public function loadUserByUsername($usernameOrEmail)
     {
         return $this->createQueryBuilder('u')
             ->where('u.pseudo = :query OR u.email = :query')
+            //j'ajoute la condition actif pour la connection
             ->andWhere('u.actif = 1')
             ->setParameter('query', $usernameOrEmail)
             ->getQuery()
             ->getOneOrNullResult();
     }
+
     public function findByActif($value)
     {
         return $this->createQueryBuilder('utilisateur')

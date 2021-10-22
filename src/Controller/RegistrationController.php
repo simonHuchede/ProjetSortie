@@ -31,6 +31,7 @@ class RegistrationController extends AbstractController
             );
 
             $entityManager = $this->getDoctrine()->getManager();
+            //on a choisi de ne mettre personne en admin
             $user->setAdministrateur(false);
             $user->setActif(true);
             $user->setRoles((array)"ROLE_USER");

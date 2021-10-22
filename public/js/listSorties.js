@@ -29,6 +29,7 @@ function afficherTab(tableau){
         tabTd[4].innerHTML=sortie.etat;
 
         if (sortie.estInscrit== false){
+            //je cible une balise selon son id et je lui set un attibut
             tabTd[5].querySelector('i').setAttribute('hidden','');
 
         }
@@ -84,6 +85,7 @@ function afficherTab(tableau){
 
 }
 let url = '../../sortie/api/listSorties/';
+//ce qui permet dexploiter les données de notre json dans le controller
     fetch(url)
         .then(response=>response.json())
         .then(tab=>
