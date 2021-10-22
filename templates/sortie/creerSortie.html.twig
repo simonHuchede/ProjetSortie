@@ -3,10 +3,9 @@
 {% block contenu %}
 
     <div class="offset-4 col-8">
-        <div class="offset-1 col-4">
-        <h1>Nouvelle sortie</h1>
-        {{ form_start(formulaireSortie, { 'attr': {'id' : 'formCreerSortie'}}) }}
-
+            <div class="offset-1 col-4">
+            <h1>Nouvelle sortie</h1>
+            {{ form_start(formulaireSortie, { 'attr': {'id' : 'formCreerSortie'}}) }}
             {{ form_widget(formulaireSortie)}}
             <div class="row">
             <label class="form-label" for="ville">Ville: </label>
@@ -37,7 +36,7 @@
             
 
             <input type="hidden" value="1" id="info" name="info">
-        {{ form_end(formulaireSortie)}}
+            {{ form_end(formulaireSortie)}}
             <button onclick="enregistrer()" class="btn btn-dark mt-3" name="Enregistrer">Enregistrer</button>
             <button onclick="publier()" class="btn btn-dark mt-3" name="Publier">Publier la sortie</button>
             <a href="{{ path('sortie_listSorties') }}" class="btn btn-dark mt-3">Annuler</a>
@@ -54,7 +53,6 @@
                 <div class="modal-body">
                     {{ form_start(formulaireLieu,{'action': path('sortie_ajouter_lieu'), 'attr': {'id':'formLieu'}}) }}
                     {{ form_widget(formulaireLieu) }}
-
                     {{ form_end(formulaireLieu) }}
                 </div>
                 <div class="modal-footer">
@@ -76,7 +74,6 @@
                 <div class="modal-body">
                     {{ form_start(formulaireVille,{'action': path('sortie_ajouter_ville'), 'attr': {'id':'formVille'}}) }}
                     {{ form_widget(formulaireVille) }}
-
                     {{ form_end(formulaireVille) }}
                 </div>
                 <div class="modal-footer">

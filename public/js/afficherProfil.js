@@ -1,8 +1,6 @@
 function afficherProfil(btn){
     let id = btn.getAttribute('data-id');
-    console.log(id);
-    let affichage = document.querySelector('#profilAfficher');
-    let urlAfficherProfil = "../../profil/afficherUnProfil/";
+
     for (let p of tabParticipant){
         console.log(p);
         if (p.id == id){
@@ -13,8 +11,4 @@ function afficherProfil(btn){
             document.querySelector('#campus').innerHTML = p.campus;
         }
     }
-
-    let urlAfficherProfil2 = urlAfficherProfil + participant.id;
-
-
 }
