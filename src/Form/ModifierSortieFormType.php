@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,15 +19,11 @@ class ModifierSortieFormType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
-            //->add('etat')
+
             ->add('lieu', null,[
                 "choice_label"=>"nom",
                 "multiple"=>false
-            ])
-            //->add('campus')
-            //->add('participants')
-            //->add('organisateur')
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -66,17 +66,17 @@ public function verifEstInscrit( $sortie, $user){
         }
         return $test;
     }
-public function verifEstAdministrateur($user)
-{
-    $test=false;
-    foreach ($user->getRoles() as $role)
-   if($role =="ROLE_ADMIN"){
-       $test=true;
-   }
+    public function verifEstAdministrateur($user)
+    {
+        $test=false;
+        foreach ($user->getRoles() as $role)
+        if($role =="ROLE_ADMIN"){
+        $test=true;
+    }
     return $test;
 
 }
-
+    //------------------------------------------------------------------------------------------
     public function archiver(){
         $etat = $this->etatRepo->find(7);
         $sorties=$this->sortieRepository->findAll();
@@ -87,9 +87,9 @@ public function verifEstAdministrateur($user)
                 $sortie->setEtat($etat);
             }
         }
-
         $this->em->flush();
     }
+    //---------------------------------------------------------------------------------------------
     public function verifEstArchivee($sortie){
         $test = false;
         $etat = $sortie->getEtat();
@@ -98,6 +98,7 @@ public function verifEstAdministrateur($user)
         }
         return $test;
     }
+    //-------------------------------------------------------------------
     public function estPassee(){
         $etat = $this->etatRepo->find(5);
         $sorties=$this->sortieRepository->findAll();
@@ -113,6 +114,7 @@ public function verifEstAdministrateur($user)
             }
         }
     }
+    //-----------------------------------------------------------------------
     public function estEnCours(){
         $etat = $this->etatRepo->find(4);
         $sorties=$this->sortieRepository->findAll();
