@@ -156,6 +156,7 @@ class SortieController extends AbstractController
             $tab['estAdmin']= $service->verifEstAdministrateur($user);
             $tab['estPassee']=$service->verifEstPassee($sortie);
             $tab['estAnnulee']=$service->verifEstAnnulee($sortie);
+            $tab['estCree']=$service->verifEstCree($sortie);
             //$tab['participants']=$sortie->getParticipants() ;
 
             $tableau[]=$tab;

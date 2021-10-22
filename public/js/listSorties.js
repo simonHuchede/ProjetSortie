@@ -72,6 +72,10 @@ function afficherTab(tableau){
             tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
         }
 
+        if(sortie.estCree == true){
+            tabTd[7].querySelector("#btnSinscrire").setAttribute("hidden",'');
+        }
+
 
         //tabTd['participants']=sortie.participants;
         tbody.appendChild(clone);

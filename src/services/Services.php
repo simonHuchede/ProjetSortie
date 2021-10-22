@@ -145,4 +145,13 @@ public function verifEstAdministrateur($user)
         }
         return $test;
     }
+
+    public function verifEstCree($sortie){
+        $test = false;
+        $etat = $sortie->getEtat();
+        if ($etat == $this->etatRepo->find(1)){
+            $test = true;
+        }
+        return $test;
+    }
 }
